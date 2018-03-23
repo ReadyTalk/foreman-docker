@@ -1,0 +1,28 @@
+---
+development:
+  adapter: postgresql
+  host: foreman-postgres-test
+  port: 5432
+  database: foreman
+  username: foreman
+  password: "nLrTDsCEMAjjiwtnJJjjKpYf33VnL87R"
+  pool: 5
+
+test:
+  adapter: postgresql
+  host: foreman-postgres-test
+  port: 5432
+  database: foreman
+  username: foreman
+  password: "nLrTDsCEMAjjiwtnJJjjKpYf33VnL87R"
+  pool: 5
+
+production:
+  adapter: postgresql
+  host: foreman-postgres-test
+  port: 5432
+  database: foreman
+  username: foreman
+  password: "nLrTDsCEMAjjiwtnJJjjKpYf33VnL87R"
+  pool: 5
+
