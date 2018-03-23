@@ -3,7 +3,7 @@ FROM phusion/passenger-full:latest
 
 ENV LANG en_US.utf8
 ENV HOME /root
-ENV FOREMAN_VERSION=1.14-stable
+ENV FOREMAN_VERSION=1.13-stable
 
 # From phusion passenger readme.  Enable nginx
 RUN rm -f /etc/service/nginx/down
