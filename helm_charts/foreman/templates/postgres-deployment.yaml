@@ -10,7 +10,7 @@ metadata:
     heritage: {{ .Release.Service }}
     component: postgres
 spec:
-  replicas: {{ .Values.replicaCount }}
+  replicas: 1
   selector:
     matchLabels:
       app: {{ template "foreman.name" . }}

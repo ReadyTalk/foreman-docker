@@ -9,7 +9,7 @@ metadata:
     heritage: {{ .Release.Service }}
     component: server
 spec:
-  replicas: {{ .Values.replicaCount }}
+  replicas: {{ .Values.foreman.replicaCount }}
   selector:
     matchLabels:
       app: {{ template "foreman.name" . }}
