@@ -36,6 +36,8 @@ RUN cp config/settings.yaml.example config/settings.yaml
 RUN echo "gem 'foreman_xen'" > ./bundler.d/foreman_xen.rb  
 
 # Install foreman and plugins
+USER app
+WORKDIR /home/app/foreman
 RUN gem install bundler
 RUN bundle install
 RUN npm install 
