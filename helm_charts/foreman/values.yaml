@@ -6,7 +6,7 @@ foreman:
   replicaCount: 1
   image:
     repository: readytalk/foreman-docker
-    tag: 1.13
+    tag: 1.13.9-91d609a
     pullPolicy: IfNotPresent
   service:
     type: ClusterIP

@@ -1,5 +1,5 @@
 {{ if .Values.postgres.enabled }}
-apiVersion: apps/v1beta2
+apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: {{ template "foreman.fullname" . }}-postgres
@@ -21,6 +21,7 @@ spec:
       labels:
         app: {{ template "foreman.name" . }}
         release: {{ .Release.Name }}
+        component: postgres
     spec:
       containers:
         - name: {{ .Chart.Name }}
