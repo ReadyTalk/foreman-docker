@@ -40,7 +40,9 @@ RUN echo "gem 'foreman_xen'" > ./bundler.d/foreman_xen.rb
 # Install foreman and plugins
 RUN gem install bundler
 RUN bundle install
-
+RUN bundle exec rake assets:precompile RAILS_ENV=production
+RUN bundle exec rake locale:pack RAILS_ENV=production
+RUN bundle exec rake webpack:compile RAILS_ENV=production
 USER root
 RUN npm install 
 
