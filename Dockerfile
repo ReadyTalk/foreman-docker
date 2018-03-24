@@ -14,8 +14,8 @@ RUN apt-get update && apt-get install -y \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Set the default ruby version
-RUN bash -lc 'rvm install ruby-2.3.3'
-RUN bash -lc 'rvm --default use ruby-2.3.3'
+RUN bash -lc 'rvm install ruby-2.3.6'
+RUN bash -lc 'rvm --default use ruby-2.3.6'
 
 # Install the nginx configuration
 RUN rm /etc/nginx/sites-enabled/default                           
