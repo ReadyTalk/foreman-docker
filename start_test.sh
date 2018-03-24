@@ -9,7 +9,7 @@
 docker run --name foreman-postgres-test -p 5432:5432 -e POSTGRES_USER=foreman -e POSTGRES_PASSWORD=nLrTDsCEMAjjiwtnJJjjKpYf33VnL87R -d postgres:9.5
 
 # Start Foreman - link to postgres
-docker run --link foreman-postgres-test --name foreman-test -p8080:80 -d readytalk/foreman-docker
+docker run --link foreman-postgres-test --name foreman-test -p8080:80 -d readytalk/foreman-docker:1.13.12-48637f3
 
 # Give it a few seconds to start
 sleep 30

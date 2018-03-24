@@ -30,19 +30,14 @@ spec:
             - name: http
               containerPort: {{ .Values.foreman.service.internalPort }}
               protocol: TCP
-          livenessProbe:
-            httpGet:
-              path: /
-              port: http
-          readinessProbe:
-            httpGet:
-              path: /
-              port: http
+          env:
+            - name: PASSENGER_APP_ENV
+              value: {{ .Values.foreman.railsenv | quote }}
           volumeMounts:
             - mountPath: /etc/nginx/sites-enabled/foreman-nginx.conf
               name: config
               subPath: foreman-nginx.conf
-            - mountPath: /etc/foreman/database.yml
+            - mountPath: /home/app/foreman/config/database.yml
               name: config
               subPath: database.yml
             - mountPath: /etc/my_init.d/10_init_foreman.sh

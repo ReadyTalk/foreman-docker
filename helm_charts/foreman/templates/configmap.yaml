@@ -18,15 +18,35 @@ data:
       username: {{ .Values.postgres.user }}
       password: {{ .Values.postgres.password }}
       pool: 5
+    test:
+      adapter: postgresql
+      host: {{ template "foreman.fullname" . }}-postgres
+      port: {{ .Values.postgres.service.externalPort }}
+      database: {{ .Values.postgres.dbName }}
+      username: {{ .Values.postgres.user }}
+      password: {{ .Values.postgres.password }}
+    development:
+      adapter: postgresql
+      host: {{ template "foreman.fullname" . }}-postgres
+      port: {{ .Values.postgres.service.externalPort }}
+      database: {{ .Values.postgres.dbName }}
+      username: {{ .Values.postgres.user }}
+      password: {{ .Values.postgres.password }}
   foreman-nginx.conf: |-
     server {
         listen {{ .Values.foreman.service.internalPort }};
         server_name {{ .Values.foreman.serverName }};
-        passenger_app_root /home/app/foreman/;
-        root /home/app/foreman/public/;
+        root /home/app/foreman/public;
         passenger_enabled on;
         passenger_user app;
     
         # Specify a Ruby version:
         passenger_ruby /usr/bin/ruby2.3;
+
+        location /nginx_status {
+          stub_status on;
+          access_log   off;
+          allow 127.0.0.1;
+          deny all;
+        }
     }

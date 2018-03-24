@@ -11,12 +11,13 @@ metadata:
 data:
   init.sh: |-
     #!/bin/bash
-    bundle exec rake db:migrate RAIL_ENV={{ .Values.foreman.railsenv }}
-    bundle exec rake db:seed RAILS_ENV={{ .Values.foreman.railsenv }}
-    bundle exec rake assets:precompile RAILS_ENV={{ .Values.foreman.railsenv }}
-    bundle exec rake locale:pack RAILS_ENV={{ .Values.foreman.railsenv }}
-    bundle exec rake webpack:compile RAILS_ENV={{ .Values.foreman.railsenv }}
+    cd /home/app/foreman
+    bundle exec rake db:migrate
+    bundle exec rake db:seed
+    bundle exec rake assets:precompile
+    bundle exec rake locale:pack
+    bundle exec rake webpack:compile 
 
-    bundle exec rake permissions:reset RAILS_ENV={{ .Values.foreman.railsenv }}
-    chown -R 9999:9999 /home/app/foreman/tmp
+    bundle exec rake permissions:reset RAILS_ENV={{ .Values.foreman.railsenv }} 
+    chown -R 9999:9999 /home/app/foreman
 
