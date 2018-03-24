@@ -1,6 +1,6 @@
 {{- if .Values.ingress.enabled -}}
 {{- $fullName := include "foreman.fullname" . -}}
-{{- $servicePort := .Values.foerman.service.externalPort -}}
+{{- $servicePort := .Values.foreman.service.externalPort -}}
 {{- $ingressPath := .Values.ingress.path -}}
 apiVersion: extensions/v1beta1
 kind: Ingress
