@@ -1,5 +1,5 @@
 # Foreman container that can take any configuration for Kubernetes
-FROM phusion/passenger-full:latest
+FROM phusion/passenger-ruby23:latest
 
 ENV LANG en_US.utf8
 ENV HOME /root
