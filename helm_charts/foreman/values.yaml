@@ -7,7 +7,7 @@ foreman:
   railsenv: production
   image:
     repository: readytalk/foreman-docker
-    tag: 1.13.16-c7df679 
+    tag: 1.13.16-c7df679
     pullPolicy: IfNotPresent
   service:
     type: ClusterIP
@@ -25,6 +25,9 @@ foreman:
   affinity: {}
   serverName: foreman.domain.com
 
+puppet:
+  enabled: true
+
 postgres:
   enabled: true
   image:
@@ -38,10 +41,6 @@ postgres:
   user: "foreman"
   password: "CHANGEME"
   dbName: "foreman"
-  volume:
-    class: "efs" # Supports efs or gp2 by default.  efs will create a PersistentVolume attached to Path
-    path: "efs.path"
-    size: 100Gi
   resources: {}
     # limits:
     #  cpu: 100m
@@ -52,6 +51,16 @@ postgres:
   nodeSelector: {}
   tolerations: []
   affinity: {}
+
+utilitypod:
+  enabled: true
+  image:
+    repository: sudermanjr/utilities
+    tag: latest
+volume:
+  class: "efs" # Supports efs or gp2 by default.  efs will create a PersistentVolume attached to Path
+  path: "efs.path"
+  size: 100Gi
 
 ingress:
   enabled: true

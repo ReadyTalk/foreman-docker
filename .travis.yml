@@ -5,11 +5,17 @@ services:
 - docker
 env:
   global:
-  - IMAGE_NAME=foreman-docker
   - COMMIT=${TRAVIS_COMMIT::7}
   - MAJ_VERSION="1.13"
+  foreman:
+  - IMAGE_NAME=foreman-docker
+  - CONTAINER_PATH=foreman
+  puppet:
+  - CONTAINER_PATH=puppetmaster
+  - IMAGE_NAME=puppetmaster-docker
 install: true
 script:
+- cd $CONTAINER_PATH
 - docker build -t readytalk/$IMAGE_NAME:$MAJ_VERSION.$TRAVIS_BUILD_NUMBER-$COMMIT
   .
 - docker images
@@ -18,12 +24,3 @@ after_success:
 - docker push readytalk/$IMAGE_NAME:$MAJ_VERSION.$TRAVIS_BUILD_NUMBER-$COMMIT
 notifications:
   email: false
-  slack:
-    template:
-    - Build <%{build_url}|#%{build_number}> (<%{compare_url}|%{commit}>) of %{repository_slug}@%{branch}>
-      by %{author} %{result} in %{duration}
-    - 'Image Name: readytalk/foreman-docker:1.13.%{build_number}-%{commit}'
-    on_success: always
-    on_failure: always
-    rooms:
-      secure: BHY07LYF8GF4EbDhWq0Z3o3/TI7bg1hPz9Xvf7jhExUc10euHC8GMt4gO5Nb920INaw31s/V7Dsh4X+glif49F/PRWDOtPx20Ii/BX0ANsAlAuKfqu5ft5H3t4MZZbyUUwK7Zqye8wOShGucZgYdHXeHnSHb9V9jskopIqGFKUI2kSCdYEze3OQAghcB+xqZ89JYSYLyihwVj+JkaAjOvZqcBtvyLwy27FCOY26g9pHMQWd2teGMC81lGKGzPqBAAsUu2hpxZVcQ4s2zzMxc0SbMsDxAWUCdpb6WRTdtpBTzG5X8xLf/4AfEjgGAMUc+ANTC/Z0jQRUl5HjEBuHZv9zhCVbVqSi78o/Hmd+um+xpd3U7X7L2zMmeEDIAWce6GExgW7H/byFSILXB9KpNiU4jdr7c0h26bwCyd2CCfqw6d0B1GQy6/cRzjZs9OrKEM8CWjAtgmqnGyyrCxw4Puj77M9JD26+iAZ7Vb0i+UxPweorr1NVkkRSkvK8g3/EqCJFrkYL/ewfKymWcJe2eA2yedxfSJ5vJCgLLWFOdC85NCZrB4emtxLNZhPbpEWDAbNcIuCsOWlUR4963YL1LdoeXPP2KD05kQoWLE4149aRISMarclaEO3wi6iznyTCN/4lOR7x8R7zUCiqlgfXJ2jaHmPXCac5cN2v78IKHTb0=

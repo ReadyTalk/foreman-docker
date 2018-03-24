@@ -1,0 +1,21 @@
+{{ if .Values.utilitypod.enabled }}
+{{ if eq .Values.volume.class "efs" }}
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: {{ template "foreman.fullname" . }}-utility
+  labels:
+    app: 'foreman-utility'
+spec:
+  capacity:
+    storage: {{ .Values.volume.size }}
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: efs
+  nfs:
+    path: /
+    server: {{ .Values.volume.path }}
+{{- end }}
+{{- end }}

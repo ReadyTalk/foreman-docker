@@ -1,0 +1,21 @@
+{{ if .Values.postgres.enabled }}
+{{ if eq .Values.volume.class "efs" }}
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: {{ template "foreman.fullname" . }}-postgres
+  labels:
+    app: 'foreman-postgres'
+spec:
+  capacity:
+    storage: {{ .Values.volume.size }}
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: efs
+  nfs:
+    path: /postgres
+    server: {{ .Values.volume.path }}
+{{- end }}
+{{- end }}

@@ -1,0 +1,19 @@
+{{ if .Values.postgres.enabled }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ template "foreman.fullname" . }}-postgres
+spec:
+  accessModes:
+    - ReadWriteMany
+  volumeMode: Filesystem
+  resources:
+    requests:
+      storage: {{ .Values.volume.size }}
+  storageClassName: {{ .Values.volume.class }}
+{{ if eq .Values.volume.class "efs" }}
+  selector:
+    matchLabels:
+      app: 'foreman-postgres'
+{{- end }}
+{{- end }}

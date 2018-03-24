@@ -31,9 +31,6 @@ spec:
             - name: postgres
               containerPort: {{ .Values.postgres.service.internalPort }}
               protocol: TCP
-          livenessProbe:
-            tcpSocket:
-              port: postgres
           readinessProbe:
             tcpSocket:
               port: postgres

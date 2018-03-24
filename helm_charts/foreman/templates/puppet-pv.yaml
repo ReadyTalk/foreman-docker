@@ -1,21 +1,21 @@
 {{ if .Values.postgres.enabled }}
-{{ if eq .Values.postgres.volume.class "efs" }}
+{{ if eq .Values.volume.class "efs" }}
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: {{ template "foreman.fullname" . }}
+  name: {{ template "foreman.fullname" . }}-puppet
   labels:
-    app: 'foreman-postgres'
+    app: 'foreman-puppet'
 spec:
   capacity:
-    storage: {{ .Values.postgres.volume.size }}
+    storage: {{ .Values.volume.size }}
   volumeMode: Filesystem
   accessModes:
     - ReadWriteMany
   persistentVolumeReclaimPolicy: Retain
   storageClassName: efs
   nfs:
-    path: /
-    server: {{ .Values.postgres.volume.path }}
+    path: /puppet
+    server: {{ .Values.volume.path }}
 {{- end }}
 {{- end }}
