@@ -1,5 +1,5 @@
 # Foreman container that can take any configuration for Kubernetes
-FROM phusion/passenger-ruby23:latest
+FROM phusion/passenger-full:latest
 
 ENV LANG en_US.utf8
 ENV HOME /root
@@ -14,6 +14,7 @@ RUN apt-get update && apt-get install -y \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Set the default ruby version
+RUN bash -lc 'rvm install ruby-2.3.3'
 RUN bash -lc 'rvm --default use ruby-2.3.3'
 
 # Install the nginx configuration
