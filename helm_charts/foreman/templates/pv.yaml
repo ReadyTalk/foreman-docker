@@ -5,7 +5,7 @@ kind: PersistentVolume
 metadata:
   name: {{ template "foreman.fullname" . }}
   labels:
-    app: 'foreman'
+    app: 'foreman-postgres'
 spec:
   capacity:
     storage: {{ .Values.postgres.volume.size }}
