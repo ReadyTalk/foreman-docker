@@ -35,6 +35,20 @@ foreman:
 
 puppet:
   enabled: true
+  image:
+    repository: readytalk/puppetmaster-docker
+    tag:
+    pullPolicy: IfNotPresent
+  service:
+    type: ClusterIP
+    internalPort: 8123
+    externalPort: 8123
+  resources: {}
+  nodeSelector: {}
+  tolerations: []
+  affinity: []
+  serverName: puppet.domain.com
+  domainName: domain.com
 
 postgres:
   enabled: true
