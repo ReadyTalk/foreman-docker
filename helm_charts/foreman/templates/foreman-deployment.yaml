@@ -38,6 +38,13 @@ spec:
             httpGet:
               path: /
               port: http
+          volumeMounts:
+            - mountPath: /etc/nginx/sites-enabled/foreman-nginx.conf
+              name: config
+              subPath: foreman-nginx.conf
+            - mountPath: /etc/foreman/database.yml
+              name: config
+              subPath: database.yml
           resources:
 {{ toYaml .Values.foreman.resources | indent 12 }}
     {{- with .Values.foreman.nodeSelector }}
@@ -52,3 +59,7 @@ spec:
       tolerations:
 {{ toYaml . | indent 8 }}
     {{- end }}
+      volumes:
+        - name: config
+          configMap:
+            name: {{ template "foreman.fullname" . }}
