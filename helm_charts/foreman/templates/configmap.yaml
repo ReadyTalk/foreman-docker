@@ -13,7 +13,7 @@ data:
     production:
       adapter: postgresql
       host: {{ template "foreman.fullname" . }}-postgres
-      port: {{ .Values.postgres.port }}
+      port: {{ .Values.postgres.service.externalPort }}
       database: {{ .Values.postgres.dbName }}
       username: {{ .Values.postgres.user }}
       password: {{ .Values.postgres.password }}
