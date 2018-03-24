@@ -11,7 +11,7 @@ spec:
     requests:
       storage: {{ .Values.postgres.volume.size }}
     storageClassName: {{ .Values.postgres.volume.class }}
-{{ if eq .Values.postgres.volume.class "nfs" }}
+{{ if eq .Values.postgres.volume.class "efs" }}
     selector:
       matchLabels:
         app: 'foreman'

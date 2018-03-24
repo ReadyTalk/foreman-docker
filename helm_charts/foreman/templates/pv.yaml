@@ -1,5 +1,5 @@
 {{ if .Values.postgres.enabled }}
-{{ if eq .Values.postgres.volume.class "nfs" }}
+{{ if eq .Values.postgres.volume.class "efs" }}
 apiVersion: v1
 kind: PersistentVolume
 metadata:

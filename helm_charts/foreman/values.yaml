@@ -37,8 +37,8 @@ postgres:
   password: "CHANGEME"
   dbName: "foreman"
   volume:
-    class: "nfs" # Supports nfs or gp2 by default.  nfs will create a PersistentVolume attached to Path
-    path: "nfs.path"
+    class: "efs" # Supports efs or gp2 by default.  efs will create a PersistentVolume attached to Path
+    path: "efs.path"
     size: 100Gi
   resources: {}
     # limits:
