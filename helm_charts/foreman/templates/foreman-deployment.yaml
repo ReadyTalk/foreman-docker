@@ -45,6 +45,9 @@ spec:
             - mountPath: /etc/foreman/database.yml
               name: config
               subPath: database.yml
+            - mountPath: /etc/my_init.d/10_init_foreman.sh
+              name: init
+              subPath: init.sh
           resources:
 {{ toYaml .Values.foreman.resources | indent 12 }}
     {{- with .Values.foreman.nodeSelector }}
@@ -63,3 +66,7 @@ spec:
         - name: config
           configMap:
             name: {{ template "foreman.fullname" . }}
+        - name: init
+          configMap:
+            name: {{ template "foreman.fullname" . }}-init
+            defaultMode: 0755
