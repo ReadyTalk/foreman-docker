@@ -1,0 +1,69 @@
+{{ if .Values.postgres.enabled }}
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: {{ template "foreman.fullname" . }}-postgres
+  labels:
+    app: {{ template "foreman.name" . }}
+    chart: {{ template "foreman.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+    component: postgres
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ template "foreman.name" . }}
+      release: {{ .Release.Name }}
+      component: postgres
+  template:
+    metadata:
+      labels:
+        app: {{ template "foreman.name" . }}
+        release: {{ .Release.Name }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.postgres.image.repository }}:{{ .Values.postgres.image.tag }}"
+          imagePullPolicy: {{ .Values.postgres.image.pullPolicy }}
+          ports:
+            - name: postgres
+              containerPort: {{ .Values.postgres.service.internalPort }}
+              protocol: TCP
+          livenessProbe:
+            tcpSocket:
+              port: postgres
+          readinessProbe:
+            tcpSocket:
+              port: postgres
+          env:
+            - name: POSTGRES_USER
+              value: {{ .Values.postgres.user }}
+            - name: POSTGRES_PASSWORD
+              value: {{ .Values.postgres.password }}
+            - name: PGDATA
+              value: "/var/lib/postgresql/data/pgdata"
+            - name: POSTGRES_DB
+              value: {{ .Values.postgres.dbName }}
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: postgres
+          resources:
+{{ toYaml .Values.postgres.resources | indent 12 }}
+    {{- with .Values.postgres.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.postgres.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.postgres.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+      volumes:
+        - name: postgres
+          persistentVolumeClaim:
+            claimName: {{ template "foreman.fullname" . }}-postgres
+{{- end}}

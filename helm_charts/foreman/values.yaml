@@ -1,0 +1,66 @@
+# Default values for foreman.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+foreman:
+  image:
+    repository: readytalk/foreman-docker
+    tag: 1.13
+    pullPolicy: IfNotPresent
+  service:
+    type: ClusterIP
+    internalPort: 80
+    externalPort: 80
+  resources: {}
+    # limits:
+    #  cpu: 100m
+    #  memory: 128Mi
+    # requests:
+    #  cpu: 100m
+    #  memory: 128Mi
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+
+postgres:
+  enabled: false
+  image:
+    repository: postgres
+    tag: 9.6-alpine
+    pullPolicy: IfNotPresent
+  service:
+    type: ClusterIP
+    internalPort: 5432
+    externalPort: 5432
+  user: "foreman"
+  password: "CHANGEME"
+  dbName: "foreman"
+  volume:
+    class: "nfs" # Supports nfs or gp2 by default.  nfs will create a PersistentVolume attached to Path
+    path: "nfs.path"
+    size: 100Gi
+  resources: {}
+    # limits:
+    #  cpu: 100m
+    #  memory: 128Mi
+    # requests:
+    #  cpu: 100m
+    #  memory: 128Mi
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+
+ingress:
+  enabled: false
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  path: /
+  hosts:
+    - foreman.domain.com
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
