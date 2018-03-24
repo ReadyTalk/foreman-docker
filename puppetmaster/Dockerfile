@@ -1,1 +1,1 @@
-FROM debian:slim
+FROM alpine:latest
