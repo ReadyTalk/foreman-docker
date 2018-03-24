@@ -22,8 +22,10 @@ RUN rm /etc/nginx/sites-enabled/default
 ADD foreman-nginx.conf /etc/nginx/sites-enabled/foreman-nginx.conf
 
 # Install foreman from source
+USER app
 WORKDIR /home/app
 RUN git clone https://github.com/theforeman/foreman.git -b ${FOREMAN_VERSION}
+
 WORKDIR /home/app/foreman
 
 #Place default database config
@@ -36,14 +38,9 @@ RUN cp config/settings.yaml.example config/settings.yaml
 RUN echo "gem 'foreman_xen'" > ./bundler.d/foreman_xen.rb  
 
 # Install foreman and plugins
-USER app
-WORKDIR /home/app/foreman
 RUN gem install bundler
 RUN bundle install
 RUN npm install 
-
-#Fix permissions in the app directory
-RUN chown -R 9999:9999 /home/app/foreman
 
 # Use baseimage-docker's init process.
 CMD ["/sbin/my_init"]
