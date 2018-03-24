@@ -7,12 +7,9 @@ env:
   global:
   - COMMIT=${TRAVIS_COMMIT::7}
   - MAJ_VERSION="1.13"
-  foreman:
-  - IMAGE_NAME=foreman-docker
-  - CONTAINER_PATH=foreman
-  puppet:
-  - CONTAINER_PATH=puppetmaster
-  - IMAGE_NAME=puppetmaster-docker
+  matrix:
+  - IMAGE_NAME=foreman-docker CONTAINER_PATH=foreman
+  - IMAGE_NAME=puppetmaster-docker CONTAINER_PATH=puppetmaster
 install: true
 script:
 - cd $CONTAINER_PATH
