@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/ReadyTalk/foreman-docker.svg?branch=master)](https://travis-ci.org/ReadyTalk/foreman-docker)
+
 # Foreman Container for Kubernetes
 
 This is based on the phusion base image.  https://github.com/phusion/passenger-docker
