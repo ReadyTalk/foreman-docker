@@ -22,6 +22,7 @@ foreman:
   nodeSelector: {}
   tolerations: []
   affinity: {}
+  serverName: foreman.domain.com
 
 postgres:
   enabled: true
