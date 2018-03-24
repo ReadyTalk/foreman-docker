@@ -39,7 +39,7 @@ data:
         root /home/app/foreman/public;
         passenger_enabled on;
         passenger_user app;
-    
+
         # Specify a Ruby version:
         passenger_ruby /usr/bin/ruby2.3;
 
@@ -50,3 +50,22 @@ data:
           deny all;
         }
     }
+  settings.yaml: |-
+    :unattended: true
+    :login: true
+    :require_ssl: false
+    :locations_enabled: false
+    :organizations_enabled: false
+    :support_jsonp: false
+{{ if .Values.puppet.enabled }}
+    :puppetconfdir: /var/lib/puppet/conf
+    :puppetvardir: /var/lib/puppet
+    :puppetssldir: /var/lib/puppet/ssl
+{{- end }}
+    :mark_translated: false
+    :webpack_dev_server: true
+    :webpack_dev_server_https: false
+
+    :domain: {{ .Values.foreman.domainName }}
+    :fqdn: {{ .Values.foreman.serverName }}
+

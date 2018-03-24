@@ -24,6 +24,7 @@ foreman:
   tolerations: []
   affinity: {}
   serverName: foreman.domain.com
+  domainName: domain.com
 
 puppet:
   enabled: true
