@@ -40,6 +40,8 @@ RUN echo "gem 'foreman_xen'" > ./bundler.d/foreman_xen.rb
 # Install foreman and plugins
 RUN gem install bundler
 RUN bundle install
+
+USER root
 RUN npm install 
 
 # Use baseimage-docker's init process.
