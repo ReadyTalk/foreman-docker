@@ -69,3 +69,9 @@ data:
     :domain: {{ .Values.foreman.domainName }}
     :fqdn: {{ .Values.foreman.serverName }}
 
+    :ssl_certificate: {{ .Values.foreman.certName }}
+    :ssl_ca_file: {{ .Values.foreman.caName }}
+    :ssl_priv_key: {{ .Values.foreman.privkeyName }}
+
+    :idle_timeout: {{ .Values.foreman.idleTimeout }}
+    :entries_per_page: {{ .Values.foreman.entriesPerPage }}

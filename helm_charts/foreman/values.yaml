@@ -23,8 +23,15 @@ foreman:
   nodeSelector: {}
   tolerations: []
   affinity: {}
+
+  # Goes in the settings.yaml for Foreman
   serverName: foreman.domain.com
   domainName: domain.com
+
+  # These paths are based on using puppet as your CA.  I believe these certs are also used for smart proxy communication
+  certName: /var/lib/puppet/ssl/certs/cert.pem
+  caName: /var/lib/puppet/ssl/ca/ca.pem
+  privkeyName: /var/lib/puppet/ssl/private_keys/privkey.pem
 
 puppet:
   enabled: true
