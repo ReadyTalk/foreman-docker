@@ -1,0 +1,47 @@
+{{- if and .Values.puppet.enabled -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "foreman.fullname" . }}-puppet
+  labels:
+    app: {{ template "foreman.name" . }}
+    chart: {{ template "foreman.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+    component: puppet
+data:
+  puppet.conf: |-
+    [main]
+      confdir=/etc/puppet
+      logdir=/var/log/puppet
+      vardir=/var/lib/puppet
+      ssldir=/var/lib/puppet/ssl
+      rundir=/var/run/puppet
+      factpath=$vardir/lib/facter
+      autosign=/etc/puppet/autosign.conf
+      templatedir=$confdir/templates
+      privatekeydir = $ssldir/private_keys { group = service }
+      hostprivkey = $privatekeydir/$certname.pem { mode = 640 }
+    
+    [master]
+      certname={{ .Values.puppet.serverName }}
+      server={{ .Values.puppet.serverName }}
+      ssl_client_header = SSL_CLIENT_S_DN
+      ssl_client_verify_header = SSL_CLIENT_VERIFY
+      storeconfigs=true
+      storeconfigs_backend = puppetdb
+      node_terminus = exec
+      external_nodes = /etc/puppet/external_node.rb
+      reports = puppetdb,foreman,prometheus
+      pluginsync=true
+      fileserverconfig=/etc/puppet/fileserver.conf
+      ordering = manifest
+      always_cache_features = true
+      hiera_config = /etc/puppet/hiera.yaml
+    
+      # Dynamic environments stuff below
+      environment = production
+      manifest    = $confdir/environments/$environment/manifests/site.pp
+      modulepath  = $confdir/environments/$environment/modules:$confdir/environments/$environment/local
+  fileserver.conf: {{ toYaml .Values.puppet.fileserverConf | default "{}" | indent 2 }}
+{{- end -}}

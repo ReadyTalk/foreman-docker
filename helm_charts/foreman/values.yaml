@@ -37,24 +37,29 @@ puppet:
   enabled: true
   image:
     repository: readytalk/puppetmaster-docker
-    tag:
+    tag: 1.13.29-8b84ed6
     pullPolicy: IfNotPresent
   service:
     type: ClusterIP
-    internalPort: 8123
-    externalPort: 8123
+    internalPort: 8140
+    externalPort: 8140
   resources: {}
   nodeSelector: {}
   tolerations: []
   affinity: []
   serverName: puppet.domain.com
   domainName: domain.com
+  fileserverConf: |-
+    [files]
+      path /var/lib/puppet/files
+    [plugins]
+      path /var/lib/puppet/files
 
 postgres:
   enabled: true
   image:
     repository: postgres
-    tag: 9.6-alpine
+    tag: 9.5-alpine
     pullPolicy: IfNotPresent
   service:
     type: ClusterIP

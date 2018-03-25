@@ -1,0 +1,67 @@
+{{ if .Values.puppet.enabled }}
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ template "foreman.fullname" . }}-puppet
+  labels:
+    app: {{ template "foreman.name" . }}
+    chart: {{ template "foreman.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+    component: puppet
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ template "foreman.name" . }}
+      release: {{ .Release.Name }}
+      component: puppet
+  template:
+    metadata:
+      labels:
+        app: {{ template "foreman.name" . }}
+        release: {{ .Release.Name }}
+        component: puppet
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.puppet.image.repository }}:{{ .Values.puppet.image.tag }}"
+          imagePullPolicy: {{ .Values.puppet.image.pullPolicy }}
+          ports:
+            - name: puppet
+              containerPort: {{ .Values.puppet.service.internalPort }}
+              protocol: TCP
+          readinessProbe:
+            tcpSocket:
+              port: puppet
+          volumeMounts:
+            - mountPath: /var/lib/puppet
+              name: puppet
+            - mountPath: /etc/puppet/puppet.conf
+              name: config
+              subPath: puppet.conf
+            - mountPath: /etc/puppet/fileserver.conf
+              name: config
+              subPath: fileserver.conf
+          resources:
+{{ toYaml .Values.puppet.resources | indent 12 }}
+    {{- with .Values.puppet.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.puppet.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.puppet.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+      volumes:
+        - name: puppet
+          persistentVolumeClaim:
+            claimName: {{ template "foreman.fullname" . }}-puppet
+        - name: config
+          configMap:
+            name: {{ template "foreman.fullname" . }}-puppet
+{{- end}}
