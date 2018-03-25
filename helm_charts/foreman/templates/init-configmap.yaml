@@ -16,8 +16,25 @@ data:
     bundle exec rake db:seed
     bundle exec rake assets:precompile
     bundle exec rake locale:pack
-    bundle exec rake webpack:compile 
+    bundle exec rake webpack:compile
 
-    bundle exec rake permissions:reset RAILS_ENV={{ .Values.foreman.railsenv }} 
+    #TODO: Find out why I have to do this for static assets to work
+    #Probably has something to do with webpack, but I don't know
+    cd /home/app/foreman/public/assets/font-awesome
+    ln -s fontawesome-webfont-*.woff fontawesome-webfont.woff
+    ln -s fontawesome-webfont-*.woff2 fontawesome-webfont.woff2
+
+    cd /home/app/foreman/public/assets/patternfly
+    ln -s OpenSans-Bold-webfont-*.woff OpenSans-Bold-webfont.woff
+    ln -s OpenSans-Light-webfont-*.ttf OpenSans-Light-webfont.ttf
+    ln -s OpenSans-Light-webfont-*.woff OpenSans-Light-webfont.woff
+    ln -s OpenSans-Regular-webfont-*.wof OpenSans-Regular-webfont.wof
+    ln -s PatternFlyIcons-webfont-*.ttf PatternFlyIcons-webfont.ttf
+
+    # Reset the admin password
+    bundle exec rake permissions:reset RAILS_ENV={{ .Values.foreman.railsenv }}
+
+    #Fix permissions
+    echo "Fixing permissions...."
     chown -R 9999:9999 /home/app/foreman
 
