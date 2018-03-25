@@ -15,9 +15,9 @@ RUN apt-get update && apt-get install -y \
 ENV LANG en_US.utf8
 
 #Add the default files and certs.  Reset ownership
-ADD conf/database.ini /etc/puppetdb/conf.d/database.ini
-ADD conf/logback.xml /etc/puppetdb/logback.xml
-ADD conf/jetty.ini /etc/puppetdb/conf.d/jetty.ini
+ADD database.ini /etc/puppetdb/conf.d/database.ini
+ADD logback.xml /etc/puppetdb/logback.xml
+ADD jetty.ini /etc/puppetdb/conf.d/jetty.ini
 
 # Increase available ram
 RUN sed -i "s/Xmx192m/Xmx512m/g" /etc/default/puppetdb
