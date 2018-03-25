@@ -5,14 +5,14 @@ RUN dpkg -i /puppetlabs.deb
 
 RUN apt-get update && apt-get install -y \
     git \
-    curl \
+    wget \
     puppetserver \
     ca-certificates \
     && apt-get clean
 
 # Install dumb-init
-RUN curl -o dumb-init.deb https://github.com/Yelp/dumb-init/releases/download/v1.2.1/dumb-init_1.2.1_amd64.deb
-RUN dpkg -i dumb-init.deb
+RUN wget https://github.com/Yelp/dumb-init/releases/download/v1.2.1/dumb-init_1.2.1_amd64.deb
+RUN dpkg -i dumb-init_1.2.1_amd64.deb
 
 #Install the gpg-eyaml gems
 RUN gem install hiera-eyaml hiera-eyaml-gpg gpgme && gem install ruby_gpg -v ">=0.3.1"
