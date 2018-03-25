@@ -1,0 +1,38 @@
+{{- if and .Values.puppet.enabled -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "foreman.fullname" . }}-puppet-smart-proxy
+  labels:
+    app: {{ template "foreman.name" . }}
+    chart: {{ template "foreman.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+    component: puppet-smart-proxy
+data:
+  settings.yml: |-
+    ---
+    :bind_host: '*'
+    :http_port: {{ .Values.puppet.proxy.service.internalPort }}
+    :log_file: STDOUT
+    # Uncomment and modify if you want to change the log level
+    # WARN, DEBUG, ERROR, FATAL, INFO, UNKNOWN
+    :log_level: {{ .Values.puppet.proxy.logLevel }}
+  puppet.yml: |-
+    ---
+    :enabled: http
+    :puppet_version: 3.8
+    # valid providers:
+    #   puppet_proxy_ssh         (run puppet over ssh)
+    #   puppet_proxy_salt        (uses salt puppet.run)
+    #   puppet_proxy_customrun   (calls a custom command with args)
+    #:use_provider: puppet_proxy_puppetrun
+  puppet_proxy_legacy.yml: |-
+    ---
+    :puppet_conf: /etc/puppet/puppet.conf
+    :puppet_url: https://localhst:8140
+    :puppet_ssl_ca: {{ .Values.foreman.caName }}
+    :puppet_ssl_cert: {{ .Values.foreman.certName }}
+    :puppet_ssl_key: {{ .Values.foreman.privkeyName }}
+    :use_cache: true
+{{- end -}}

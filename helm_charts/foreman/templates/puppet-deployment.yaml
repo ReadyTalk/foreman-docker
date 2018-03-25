@@ -22,9 +22,11 @@ spec:
         app: {{ template "foreman.name" . }}
         release: {{ .Release.Name }}
         component: puppet
+    annotations: 
+      checksum/config: {{ include (print $.Template.BasePath "/puppet-configmap.yaml") . | sha256sum }}
     spec:
       containers:
-        - name: {{ .Chart.Name }}
+        - name: puppet
           image: "{{ .Values.puppet.image.repository }}:{{ .Values.puppet.image.tag }}"
           imagePullPolicy: {{ .Values.puppet.image.pullPolicy }}
           ports:
@@ -32,15 +34,48 @@ spec:
               containerPort: {{ .Values.puppet.service.internalPort }}
               protocol: TCP
           readinessProbe:
-            tcpSocket:
+            httpGet:
               port: puppet
+              path: /stage/status/whatever
+              scheme: HTTPS
+              httpHeaders:
+              - name: Accept
+                value: "*/*"
           volumeMounts:
             - mountPath: /var/lib/puppet
               name: puppet
             - mountPath: /etc/puppet
-              name: config
+              name: puppetconfig
           resources:
 {{ toYaml .Values.puppet.resources | indent 12 }}
+        - name: puppet-smart-proxy
+          image: "{{ .Values.puppet.proxy.image.repository }}:{{ .Values.puppet.proxy.image.tag }}"
+          imagePullPolicy: {{ .Values.puppet.proxy.image.pullPolicy }}
+          ports:
+            - name: proxy
+              containerPort: {{ .Values.puppet.proxy.service.internalPort }}
+              protocol: TCP
+          readinessProbe:
+            httpGet:
+              port: proxy
+              path: /features
+              scheme: HTTP
+          volumeMounts:
+            - mountPath: /var/lib/puppet
+              name: puppet
+            - mountPath: /smart-proxy/config/settings.yml
+              name: proxyconfig
+              subPath: settings.yml
+            - mountPath: /smart-proxy/config/settings.d/puppet.yml
+              name: proxyconfig
+              subPath: puppet.yml
+            - mountPath: /smart-proxy/config/settings.d/puppet_proxy_legacy.yml
+              name: proxyconfig
+              subPath: puppet_proxy_legacy.yml
+            - mountPath: /etc/puppet
+              name: puppetconfig
+          resources:
+{{ toYaml .Values.puppet.proxy.resources | indent 12 }}
     {{- with .Values.puppet.nodeSelector }}
       nodeSelector:
 {{ toYaml . | indent 8 }}
@@ -57,7 +92,10 @@ spec:
         - name: puppet
           persistentVolumeClaim:
             claimName: {{ template "foreman.fullname" . }}-puppet
-        - name: config
+        - name: puppetconfig 
           configMap:
             name: {{ template "foreman.fullname" . }}-puppet
+        - name: proxyconfig
+          configMap:
+            name: {{ template "foreman.fullname" . }}-puppet-smart-proxy
 {{- end}}

@@ -7,7 +7,7 @@ foreman:
   railsenv: production
   image:
     repository: readytalk/foreman-docker
-    tag: 1.13.38-cdf6ee2
+    tag: 1.13.50-4295eb8 
     pullPolicy: IfNotPresent
   service:
     type: ClusterIP
@@ -37,7 +37,7 @@ puppet:
   enabled: true
   image:
     repository: readytalk/puppetmaster-docker
-    tag: 1.13.38-cdf6ee2
+    tag: 1.13.50-4295eb8 
     pullPolicy: IfNotPresent
   service:
     type: ClusterIP
@@ -69,26 +69,36 @@ puppet:
     path ~ ^/catalog/([^/]+)$
     method find
     allow $1
-    
+
     # allow nodes to retrieve their own node definition
     path ~ ^/node/([^/]+)$
     method find
     allow $1
-    
+
     # allow all nodes to access the certificates services
     path /certificate_revocation_list/ca
     method find
     allow *
-    
+
     # allow all nodes to store their own reports
     path ~ ^/report/([^/]+)$
     method save
     allow $1
+  proxy:
+    image:
+      repository: readytalk/foremanproxy-docker
+      tag: 1.13.50-4295eb8
+      pullPolicy: IfNotPresent
+    service:
+      internalPort: 8000
+      externalPort: 8000
+    logLevel: DEBUG
+    resources: {}
 
 puppetdb:
   image:
     repository: readytalk/puppetdb-docker
-    tag: 1.13.38-cdf6ee2
+    tag: 1.13.50-4295eb8 
     pullPolicy: IfNotPresent
   postgres:
     username: puppetdb
@@ -139,6 +149,7 @@ utilitypod:
   image:
     repository: sudermanjr/utilities
     tag: latest
+
 volume:
   class: "efs" # Supports efs or gp2 by default.  efs will create a PersistentVolume attached to Path
   path: "efs.path"
