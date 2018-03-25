@@ -8,6 +8,7 @@ RUN apt-get update && apt-get install -y \
     wget \
     puppetserver \
     ca-certificates \
+    ruby-dev \
     && apt-get clean
 
 # Install dumb-init

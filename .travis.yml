@@ -10,6 +10,7 @@ env:
   matrix:
   - IMAGE_NAME=foreman-docker CONTAINER_PATH=foreman
   - IMAGE_NAME=puppetmaster-docker CONTAINER_PATH=puppetmaster
+  - IMAGE_NAME=puppetdb-docker CONTAINER_PATH=puppetdb
 install: true
 script:
 - cd $CONTAINER_PATH

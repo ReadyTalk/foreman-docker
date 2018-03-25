@@ -1,0 +1,36 @@
+{{- if and .Values.puppet.enabled -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "foreman.fullname" . }}-puppetdb
+  labels:
+    app: {{ template "foreman.name" . }}
+    chart: {{ template "foreman.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+    component: puppetdb
+data:
+  jetty.ini: |-
+    [jetty]
+    host = 0.0.0.0
+    port = 8080
+    ssl-host = 0.0.0.0
+    ssl-port = 8081
+    
+    # Private key path
+    ssl-key = {{ .Values.puppetdb.privkeyPath }}
+    
+    # Public certificate path
+    ssl-cert = {{ .Values.puppetdb.certPath }}
+    
+    # Certificate authority path
+    ssl-ca-cert = {{ .Values.puppetdb.caPath }}
+  database.ini: |-
+    [database]
+    classname = org.postgresql.Driver
+    subprotocol = postgresql
+    subname = //localhost:5432/puppetdb
+    username = {{ .Values.puppetdb.postgres.username }}
+    password = {{ .Values.puppetdb.postgres.password }}
+     
+{{- end -}}
