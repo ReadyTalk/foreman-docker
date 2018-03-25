@@ -64,6 +64,26 @@ puppet:
       path /var/lib/puppet/files
     [plugins]
       path /var/lib/puppet/files
+  authConf: |- # http://docs.puppetlabs.com/guides/rest_auth_conf.html
+    # allow nodes to retrieve their own catalog
+    path ~ ^/catalog/([^/]+)$
+    method find
+    allow $1
+    
+    # allow nodes to retrieve their own node definition
+    path ~ ^/node/([^/]+)$
+    method find
+    allow $1
+    
+    # allow all nodes to access the certificates services
+    path /certificate_revocation_list/ca
+    method find
+    allow *
+    
+    # allow all nodes to store their own reports
+    path ~ ^/report/([^/]+)$
+    method save
+    allow $1
 
 puppetdb:
   image:

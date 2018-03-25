@@ -37,21 +37,11 @@ spec:
           volumeMounts:
             - mountPath: /var/lib/puppet
               name: puppet
-            - mountPath: /etc/puppet/puppet.conf
+            - mountPath: /etc/puppet
               name: config
-              subPath: puppet.conf
-            - mountPath: /etc/puppet/fileserver.conf
-              name: config
-              subPath: fileserver.conf
-            - mountPath: /etc/puppet/hiera.yaml
-              name: config
-              subPath: hiera.yaml
-            - mountPath: /etc/puppet/prometheus.yaml
-              name: config
-              subPath: prometheus.yaml
-            - mountPath: /etc/puppet/puppetdb.conf
-              name: config
-              subPath: puppetdb.conf
+            - mountPath: /etc/puppet/external_node.rb
+              name: enc
+              subPath: external_node.rb
           resources:
 {{ toYaml .Values.puppet.resources | indent 12 }}
     {{- with .Values.puppet.nodeSelector }}
@@ -73,4 +63,7 @@ spec:
         - name: config
           configMap:
             name: {{ template "foreman.fullname" . }}-puppet
+        - name: enc
+          configMap:
+            name: {{ template "foreman.fullname" . }}-enc
 {{- end}}
