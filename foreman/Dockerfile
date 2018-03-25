@@ -10,7 +10,7 @@ RUN rm -f /etc/service/nginx/down
 
 # Install some tools and dependencies
 RUN apt-get update && apt-get install -y \
-    git wget curl libvirt-dev postgresql openssl libsqlite-dev \
+    git wget curl libvirt-dev postgresql openssl libsqlite-dev ca-certificates \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Set the default ruby version
