@@ -13,9 +13,9 @@ data:
   jetty.ini: |-
     [jetty]
     host = 0.0.0.0
-    port = 8080
+    port = {{ .Values.puppetdb.service.internalPort }}
     ssl-host = 0.0.0.0
-    ssl-port = {{ .Values.puppetdb.service.internalPort }}
+    ssl-port = {{ .Values.puppetdb.service.internalPortSSL }}
     
     # Private key path
     ssl-key = {{ .Values.puppetdb.privkeyPath }}
