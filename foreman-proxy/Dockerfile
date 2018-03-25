@@ -1,11 +1,14 @@
-FROM debian:8-slim
+FROM ruby:2.3-alpine
+# Foreman 1.13 is only comapatible with ruby 2.3
 
 ENV FOREMAN_VERSION=1.13-stable
 
-RUN apt-get update && apt-get install -y \
+RUN apk add --update \
     git \
     ca-certificates \
-    && apt-get clean
+    clang make ruby-dev libffi-dev \
+    && rm -rf /var/cache/apk/*
 
 RUN git clone https://github.com/theforeman/smart-proxy.git -b ${FOREMAN_VERSION}
-
+WORKDIR /smart-proxy
+RUN bundle install
