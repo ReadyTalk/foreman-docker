@@ -39,9 +39,6 @@ spec:
               name: puppet
             - mountPath: /etc/puppet
               name: config
-            - mountPath: /etc/puppet/external_node.rb
-              name: enc
-              subPath: external_node.rb
           resources:
 {{ toYaml .Values.puppet.resources | indent 12 }}
     {{- with .Values.puppet.nodeSelector }}
@@ -63,7 +60,4 @@ spec:
         - name: config
           configMap:
             name: {{ template "foreman.fullname" . }}-puppet
-        - name: enc
-          configMap:
-            name: {{ template "foreman.fullname" . }}-enc
 {{- end}}
