@@ -1,4 +1,4 @@
-FROM debian: jessie
+FROM debian:jessie
 
 ADD https://apt.puppetlabs.com/puppetlabs-release-wheezy.deb /puppetlabs.deb
 RUN dpkg -i /puppetlabs.deb
