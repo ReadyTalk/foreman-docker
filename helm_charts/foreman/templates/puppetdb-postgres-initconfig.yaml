@@ -1,0 +1,20 @@
+{{- if and .Values.puppet.enabled -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "foreman.fullname" . }}-puppetdb-postgres
+  labels:
+    app: {{ template "foreman.name" . }}
+    chart: {{ template "foreman.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+    component: puppetdb
+data:
+  init_trgm.sh: |-
+    #!/bin/bash
+    set -e
+
+    psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" <<-EOSQL
+        CREATE EXTENSION pg_trgm;
+    EOSQL
+{{- end -}}

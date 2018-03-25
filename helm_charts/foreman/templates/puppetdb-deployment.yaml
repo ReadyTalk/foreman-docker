@@ -41,6 +41,9 @@ spec:
           volumeMounts:
             - mountPath: /var/lib/postgresql/data
               name: puppetdb
+            - mountPath: /docker-entrypoint-initdb.d/init_trgm.sh
+              name: postgres-init
+              subPath: init_trgm.sh
         - name: {{ .Chart.Name }}-puppetdb
           image: "{{ .Values.puppetdb.image.repository }}:{{ .Values.puppetdb.image.tag }}"
           imagePullPolicy: {{ .Values.puppetdb.image.pullPolicy }}
@@ -51,6 +54,10 @@ spec:
             - name: puppetdb-ssl
               containerPort: 8081
               protocol: TCP
+          readinessProbe:
+            httpGet:
+              port: puppetdb
+              path: /v3/version
           volumeMounts:
             - mountPath: /etc/puppetdb/conf.d/database.ini
               name: config
@@ -82,4 +89,7 @@ spec:
         - name: puppet
           persistentVolumeClaim:
             claimName: {{ template "foreman.fullname" . }}-puppet
+        - name: postgres-init
+          configMap:
+            name: {{ template "foreman.fullname" . }}-puppetdb-postgres
 {{- end}}
