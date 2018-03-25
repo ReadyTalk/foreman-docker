@@ -49,6 +49,16 @@ puppet:
   affinity: []
   serverName: puppet.domain.com
   domainName: domain.com
+  hieraConf: |-
+    ---
+    :backends:
+      - yaml
+    :logger: puppet
+    :yaml:
+      :datadir: /var/lib/puppet/environments/%{::environment}/hieradata
+    :hierarchy:
+      - "hosts/%{::hostname}"
+      - common
   fileserverConf: |-
     [files]
       path /var/lib/puppet/files

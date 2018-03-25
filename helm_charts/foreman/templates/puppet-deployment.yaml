@@ -43,6 +43,9 @@ spec:
             - mountPath: /etc/puppet/fileserver.conf
               name: config
               subPath: fileserver.conf
+            - mountPath: /etc/puppet/hiera.yaml
+              name: config
+              subPath: hiera.yaml
           resources:
 {{ toYaml .Values.puppet.resources | indent 12 }}
     {{- with .Values.puppet.nodeSelector }}
