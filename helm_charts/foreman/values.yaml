@@ -80,7 +80,7 @@ puppetdb:
       pullPolicy: IfNotPresent
   service:
     internalPort: 8081
-    externalPort: 8080
+    externalPort: 8081
     type: ClusterIP
   caPath: /path/to/ca/cert.pem
   certPath: /path/to/cert.pem

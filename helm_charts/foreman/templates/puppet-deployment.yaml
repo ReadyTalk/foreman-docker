@@ -49,6 +49,9 @@ spec:
             - mountPath: /etc/puppet/prometheus.yaml
               name: config
               subPath: prometheus.yaml
+            - mountPath: /etc/puppet/puppetdb.conf
+              name: config
+              subPath: puppetdb.conf
           resources:
 {{ toYaml .Values.puppet.resources | indent 12 }}
     {{- with .Values.puppet.nodeSelector }}

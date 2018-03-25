@@ -45,6 +45,7 @@ data:
       modulepath  = $confdir/environments/$environment/modules:$confdir/environments/$environment/local
   fileserver.conf: {{ toYaml .Values.puppet.fileserverConf | default "" | indent 2 }}
   hiera.yaml: {{ toYaml .Values.puppet.hieraConf | default "" | indent 2 }}
+  puppetdb.conf: {{ toYaml .Values.puppet.puppetdbConf | default "" | indent 2 }}
   prometheus.yaml: |-
     ---
     textfile_directory: /var/lib/puppet/prometheus-dropzone

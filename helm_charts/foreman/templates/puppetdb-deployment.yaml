@@ -27,9 +27,6 @@ spec:
         - name: {{ .Chart.Name }}-postgres-puppetdb
           image: "{{ .Values.puppetdb.postgres.image.repository }}:{{ .Values.puppetdb.postgres.image.tag }}"
           imagePullPolicy: {{ .Values.puppetdb.postgres.image.pullPolicy }}
-          readinessProbe:
-            tcpSocket:
-              port: postgres
           env:
             - name: POSTGRES_USER
               value: {{ .Values.puppetdb.postgres.username }}

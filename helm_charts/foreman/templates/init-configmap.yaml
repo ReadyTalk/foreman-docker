@@ -23,13 +23,28 @@ data:
     cd /home/app/foreman/public/assets/font-awesome
     ln -s fontawesome-webfont-*.woff fontawesome-webfont.woff
     ln -s fontawesome-webfont-*.woff2 fontawesome-webfont.woff2
+    ln -s fontawesome-webfont-*.ttf fontawesome-webfont.ttf
 
     cd /home/app/foreman/public/assets/patternfly
     ln -s OpenSans-Bold-webfont-*.woff OpenSans-Bold-webfont.woff
+    ln -s OpenSans-Bold-webfont-*.ttf OpenSans-Bold-webfont.ttf
+    ln -s OpenSans-Semibold-webfont-*.woff OpenSans-Semibold-webfont.woff
+    ln -s OpenSans-Semibold-webfont-*.ttf OpenSans-Semibold-webfont.ttf
     ln -s OpenSans-Light-webfont-*.ttf OpenSans-Light-webfont.ttf
     ln -s OpenSans-Light-webfont-*.woff OpenSans-Light-webfont.woff
-    ln -s OpenSans-Regular-webfont-*.wof OpenSans-Regular-webfont.wof
+    ln -s OpenSans-Regular-webfont-*.woff OpenSans-Regular-webfont.woff
+    ln -s OpenSans-Regular-webfont-*.ttf OpenSans-Regular-webfont.ttf
     ln -s PatternFlyIcons-webfont-*.ttf PatternFlyIcons-webfont.ttf
+
+    cd /home/app/foreman/public/assets/bootstrap
+    ln -s glyphicons-halflings-regular-*.woff glyphicons-halflings-regular.woff
+    ln -s glyphicons-halflings-regular-*.woff2 glyphicons-halflings-regular.woff2
+    ln -s glyphicons-halflings-regular-*.ttf glyphicons-halflings-regular.ttf
+
+    cd /home/app/foreman/public/assets
+    ln -s overpass_regular-web-*.woff overpass_regular-web.woff
+    ln -s overpass_regular-web-*.ttf overpass_regular-web.ttf
+
 
     # Reset the admin password
     bundle exec rake permissions:reset RAILS_ENV={{ .Values.foreman.railsenv }}

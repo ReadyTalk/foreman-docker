@@ -29,8 +29,7 @@ data:
     [database]
     classname = org.postgresql.Driver
     subprotocol = postgresql
-    subname = //localhost:5432/puppetdb
+    subname = //127.0.0.1:5432/{{ .Values.puppetdb.postgres.dbName }}
     username = {{ .Values.puppetdb.postgres.username }}
     password = {{ .Values.puppetdb.postgres.password }}
-     
 {{- end -}}
