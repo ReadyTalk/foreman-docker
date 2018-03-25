@@ -3,7 +3,7 @@
 # Declare variables to be passed into your templates.
 
 foreman:
-  replicaCount: 1
+  replicaCount: 1 # This must stay one until a couple of things are fixed
   railsenv: production
   image:
     repository: readytalk/foreman-docker
@@ -64,6 +64,30 @@ puppet:
       path /var/lib/puppet/files
     [plugins]
       path /var/lib/puppet/files
+
+puppetdb:
+  image:
+    repository: readytalk/puppetdb-docker
+    tag: 1.13.asdf
+    pullPolicy: IfNotPresent
+  postgres:
+    username: puppetdb
+    password: CHANGEME
+    dbName: puppetdb
+    image:
+      repository: postgres
+      tag: 9.5-alpine
+      pullPolicy: IfNotPresent
+  service:
+    internalPort: 8081
+    externalPort: 8080
+    type: ClusterIP
+  caPath: /path/to/ca/cert.pem
+  certPath: /path/to/cert.pem
+  privkeyPath: /path/to/privkey.pem
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
 
 postgres:
   enabled: true

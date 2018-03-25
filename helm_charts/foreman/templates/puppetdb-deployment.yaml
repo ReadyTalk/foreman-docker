@@ -32,7 +32,7 @@ spec:
               port: postgres
           env:
             - name: POSTGRES_USER
-              value: {{ .Values.puppetdb.postgres.user }}
+              value: {{ .Values.puppetdb.postgres.username }}
             - name: POSTGRES_PASSWORD
               value: {{ .Values.puppetdb.postgres.password }}
             - name: PGDATA
@@ -59,7 +59,8 @@ spec:
             - mountPath: /etc/puppetdb/conf.d/jetty.ini
               name: config
               subPath: jetty.ini
-
+            - mountPath: /var/lib/puppet
+              name: puppet
     {{- with .Values.puppetdb.nodeSelector }}
       nodeSelector:
 {{ toYaml . | indent 8 }}
@@ -79,4 +80,7 @@ spec:
         - name: puppetdb
           persistentVolumeClaim:
             claimName: {{ template "foreman.fullname" . }}-puppetdb
+        - name: puppet
+          persistentVolumeClaim:
+            claimName: {{ template "foreman.fullname" . }}-puppet
 {{- end}}
