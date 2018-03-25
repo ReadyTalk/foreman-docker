@@ -46,6 +46,9 @@ spec:
             - mountPath: /etc/puppet/hiera.yaml
               name: config
               subPath: hiera.yaml
+            - mountPath: /etc/puppet/prometheus.yaml
+              name: config
+              subPath: prometheus.yaml
           resources:
 {{ toYaml .Values.puppet.resources | indent 12 }}
     {{- with .Values.puppet.nodeSelector }}
