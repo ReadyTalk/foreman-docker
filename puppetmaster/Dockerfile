@@ -1,4 +1,4 @@
-FROM debian:jessie
+FROM debian:8
 
 ADD https://apt.puppetlabs.com/puppetlabs-release-wheezy.deb /puppetlabs.deb
 RUN dpkg -i /puppetlabs.deb
@@ -16,7 +16,7 @@ RUN wget https://github.com/Yelp/dumb-init/releases/download/v1.2.1/dumb-init_1.
 RUN dpkg -i dumb-init_1.2.1_amd64.deb
 
 #Install the gpg-eyaml gems
-RUN gem install hiera-eyaml hiera-eyaml-gpg gpgme && gem install ruby_gpg -v ">=0.3.1"
+RUN puppetserver gem install hiera-eyaml hiera-eyaml-gpg ruby_gpg -v ">=0.3.1"
 
 #Backport for https://github.com/puppetlabs/puppet/pull/4752
 # 'ERF12-4115 [ProxyAPI::ProxyException]: Unable to get classes from Puppet for master Timed out reading data from server for proxy'
