@@ -29,9 +29,6 @@ RUN sed -i 's/@hooks_to_call_on_application_initialization << tryconfig/@hooks_t
 ADD https://raw.githubusercontent.com/voxpupuli/puppet-prometheus_reporter/master/lib/puppet/reports/prometheus.rb /usr/lib/ruby/vendor_ruby/puppet/reports/prometheus.rb
 RUN chmod 644 /usr/lib/ruby/vendor_ruby/puppet/reports/prometheus.rb
 
-#Add the foreman-proxy user to the puppet group as per https://theforeman.org/manuals/1.12/index.html#4.3.10SSL
-RUN usermod -a -G puppet foreman-proxy
-
 ENTRYPOINT ["/usr/bin/dumb-init", "--"]
 
 CMD ["/usr/bin/puppet", "master", "--verbose", "--no-daemonize"]
