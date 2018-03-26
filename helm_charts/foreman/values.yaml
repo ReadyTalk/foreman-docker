@@ -7,7 +7,7 @@ foreman:
   railsenv: production
   image:
     repository: readytalk/foreman-docker
-    tag: 1.13.50-4295eb8 
+    tag: 1.13.50-4295eb8
     pullPolicy: IfNotPresent
   service:
     type: ClusterIP
@@ -27,6 +27,8 @@ foreman:
   # Goes in the settings.yaml for Foreman
   serverName: foreman.domain.com
   domainName: domain.com
+  encryptionKey: bW9kdWxlIEVuY3J5cHRpb25LZXkKICAgICAgRU5DUllQVElPTl9LRVkgPSAnc29tZSByYW5kb20gY3JhcCBhdCBsZWFzdCAzMiBiaXRzJwplbmQK # Base64 encoded encryption_key.rb https://theforeman.org/manuals/1.13/index.html#5.2.10PasswordEncryption
+  localSecretToken: "" #Similar to above, but another file and another key type
 
   # These paths are based on using puppet as your CA.  I believe these certs are also used for smart proxy communication
   certName: /var/lib/puppet/ssl/certs/cert.pem
@@ -37,7 +39,7 @@ puppet:
   enabled: true
   image:
     repository: readytalk/puppetmaster-docker
-    tag: 1.13.50-4295eb8 
+    tag: 1.13.54-3dcac48
     pullPolicy: IfNotPresent
   service:
     type: ClusterIP
@@ -98,7 +100,7 @@ puppet:
 puppetdb:
   image:
     repository: readytalk/puppetdb-docker
-    tag: 1.13.50-4295eb8 
+    tag: 1.13.50-4295eb8
     pullPolicy: IfNotPresent
   postgres:
     username: puppetdb

@@ -22,7 +22,7 @@ data:
       templatedir=$confdir/templates
       privatekeydir = $ssldir/private_keys { group = service }
       hostprivkey = $privatekeydir/$certname.pem { mode = 640 }
-    
+
     [master]
       certname={{ .Values.puppet.serverName }}
       server={{ .Values.puppet.serverName }}
@@ -38,14 +38,14 @@ data:
       ordering = manifest
       always_cache_features = true
       hiera_config = /etc/puppet/hiera.yaml
-    
+
       # Dynamic environments stuff below
       environment = production
       manifest    = $confdir/environments/$environment/manifests/site.pp
       modulepath  = $confdir/environments/$environment/modules:$confdir/environments/$environment/local
   fileserver.conf: {{ toYaml .Values.puppet.fileserverConf | default "" | indent 2 }}
   hiera.yaml: {{ toYaml .Values.puppet.hieraConf | default "" | indent 2 }}
-  puppetdb.conf: 
+  puppetdb.conf:
   pupetdbConf: |-
     [main]
     server = {{ template "foreman.fullname" . }}-puppetdb
@@ -54,4 +54,18 @@ data:
   prometheus.yaml: |-
     ---
     textfile_directory: /var/lib/puppet/prometheus-dropzone
+  foreman.yaml: |-
+    ---
+    # Update for your Foreman and Puppet master hostname(s)
+    :url: http://{{ template "foreman.fullname" . }}:{{ .Values.foreman.service.externalPort }}
+    :ssl_ca: {{ .Values.foreman.caName | quote }}
+    :ssl_cert: {{ .Values.foreman.certName | quote }}
+    :ssl_key: {{ .Values.foreman.privkeyName | quote }}
+
+    # Advanced settings
+    :puppetdir: "/var/lib/puppet"
+    :puppetuser: "puppet"
+    :facts: true
+    :timeout: 10
+    :threads: null
 {{- end -}}
