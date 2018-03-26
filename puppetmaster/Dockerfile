@@ -3,6 +3,8 @@ FROM ruby:2.3-jessie
 ADD https://apt.puppetlabs.com/puppetlabs-release-wheezy.deb /puppetlabs.deb
 RUN dpkg -i /puppetlabs.deb
 
+ENV FOREMAN_VERSION=1.13-stable
+
 RUN apt-get update && apt-get install -y \
     git \
     wget \
