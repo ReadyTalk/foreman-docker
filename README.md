@@ -32,3 +32,6 @@ There are two current storage options.  The first is to let Kubernetes create a 
 
 The second option (Preferred) is EFS.  You can create an efs volume and put that information in the values file.  This will use that EFS volume for all persistence, and keep folders for each servcice.  In this case, the utility pod will mount the root of the EFS volume to /data, allowing you to view all of your data, and to work with all of it.
 
+#### Files
+
+Puppet requires a lot of files to be in place for things to work.  Mainly this is your puppet code.  This needs to be placed on the persistent storage somehow.  I have provided the utility container and suggest using EFS so that you can place all the files.  The rest is up to you.
