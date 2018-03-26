@@ -1,4 +1,4 @@
-FROM debian:8
+FROM ruby:2.3-jessie
 
 ADD https://apt.puppetlabs.com/puppetlabs-release-wheezy.deb /puppetlabs.deb
 RUN dpkg -i /puppetlabs.deb
@@ -6,14 +6,15 @@ RUN dpkg -i /puppetlabs.deb
 RUN apt-get update && apt-get install -y \
     git \
     wget \
+    ruby-dev \
+    libffi-dev \
+    libghc-augeas-dev \
+    libvirt-dev \
     puppetserver \
     ca-certificates \
     ruby-dev \
-    && apt-get clean
-
-# Install dumb-init
-RUN wget https://github.com/Yelp/dumb-init/releases/download/v1.2.1/dumb-init_1.2.1_amd64.deb
-RUN dpkg -i dumb-init_1.2.1_amd64.deb
+    supervisor \
+    && apt-get clean &&  rm -rf /var/lib/apt/lists/*
 
 #Install the gpg-eyaml gems
 RUN puppetserver gem install hiera-eyaml hiera-eyaml-gpg ruby_gpg -v ">=0.3.1"
@@ -33,6 +34,12 @@ RUN chmod 644 /usr/lib/ruby/vendor_ruby/puppet/reports/prometheus.rb
 ADD https://raw.githubusercontent.com/theforeman/puppet-foreman/master/files/foreman-report_v2.rb /usr/lib/ruby/vendor_ruby/puppet/reports/foreman.rb
 RUN chmod 644 /usr/lib/ruby/vendor_ruby/puppet/reports/foreman.rb
 
-ENTRYPOINT ["/usr/bin/dumb-init", "--"]
+# Install the foreman proxy
+RUN git clone https://github.com/theforeman/smart-proxy.git -b ${FOREMAN_VERSION}
+WORKDIR /smart-proxy
+RUN bundle install
 
-CMD ["/usr/bin/puppet", "master", "--verbose", "--no-daemonize"]
+# Setup supervisord to run the proxy and master
+ADD supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
+CMD ["/usr/bin/supervisord"]
