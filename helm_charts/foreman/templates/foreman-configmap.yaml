@@ -35,6 +35,9 @@ data:
   foreman-nginx.conf: |-
     server {
         listen {{ .Values.foreman.service.internalPort }};
+        listen {{ .Values.foreman.service.internalPortSSL }} ssl;
+        ssl_certificate {{ .Values.foreman.certName }};
+        ssl_certificate_key {{ .Values.foreman.privkeyName }};
         server_name {{ .Values.foreman.serverName }};
         root /home/app/foreman/public;
         passenger_enabled on;
@@ -70,7 +73,7 @@ data:
     :puppetconfdir: /var/lib/puppet/conf
     :puppetvardir: /var/lib/puppet
     :puppetssldir: /var/lib/puppet/ssl
-    :trusted_puppetmaster_hosts: [*]
+
 {{- end }}
     :mark_translated: false
     :webpack_dev_server: true

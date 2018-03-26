@@ -35,4 +35,13 @@ data:
     :puppet_ssl_cert: {{ .Values.foreman.certName }}
     :puppet_ssl_key: {{ .Values.foreman.privkeyName }}
     :use_cache: true
+  puppetca.yml: |-
+    ---
+    # Can be true, false, or http/https to enable just one of the protocols
+    :enabled: true
+    
+    :ssldir: /var/lib/puppet/ssl
+    :puppetdir: /etc/puppet
+    #:puppetca_use_sudo: true
+    #:sudo_command: /usr/bin/sudo
 {{- end -}}

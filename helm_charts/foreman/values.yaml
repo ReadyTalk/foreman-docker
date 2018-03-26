@@ -5,7 +5,7 @@
 foreman:
 # You can run muliple instances as all of these requirements are satisfied:
 # https://theforeman.org/manuals/1.13/index.html#5.8MultipleForemaninstances
-  replicaCount: 4
+  replicaCount: 1
   railsenv: production
   image:
     repository: readytalk/foreman-docker
@@ -15,6 +15,8 @@ foreman:
     type: ClusterIP
     internalPort: 80
     externalPort: 80
+    internalPortSSL: 443
+    externalPortSSL: 443
   resources: {}
     # limits:
     #  cpu: 100m

@@ -70,6 +70,9 @@ spec:
             - mountPath: /smart-proxy/config/settings.d/puppet_proxy_legacy.yml
               name: proxyconfig
               subPath: puppet_proxy_legacy.yml
+            - mountPath: /smart-proxy/config/settings.d/puppetca.yml
+              name: proxyconfig
+              subPath: puppetca.yml
             - mountPath: /etc/puppet
               name: puppetconfig
           resources:
