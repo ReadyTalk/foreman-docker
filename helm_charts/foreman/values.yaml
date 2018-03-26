@@ -91,15 +91,10 @@ puppet:
     method save
     allow $1
   proxy:
-    image:
-      repository: readytalk/foremanproxy-docker
-      tag: 1.13.50-4295eb8
-      pullPolicy: IfNotPresent
     service:
       internalPort: 8000
       externalPort: 8000
     logLevel: DEBUG
-    resources: {}
 
 puppetdb:
   image:

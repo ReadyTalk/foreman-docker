@@ -31,6 +31,9 @@ spec:
             - name: puppet
               containerPort: {{ .Values.puppet.service.internalPort }}
               protocol: TCP
+            - name: proxy
+              containerPort: {{ .Values.puppet.proxy.service.internalPort }}
+              protocol: TCP
           readinessProbe:
             httpGet:
               port: puppet
@@ -44,21 +47,6 @@ spec:
               name: puppet
             - mountPath: /etc/puppet
               name: puppetconfig
-          resources:
-{{ toYaml .Values.puppet.resources | indent 12 }}
-        - name: puppet-smart-proxy
-          image: "{{ .Values.puppet.proxy.image.repository }}:{{ .Values.puppet.proxy.image.tag }}"
-          imagePullPolicy: {{ .Values.puppet.proxy.image.pullPolicy }}
-          ports:
-            - name: proxy
-              containerPort: {{ .Values.puppet.proxy.service.internalPort }}
-              protocol: TCP
-          readinessProbe:
-            httpGet:
-              port: proxy
-              path: /features
-              scheme: HTTP
-          volumeMounts:
             - mountPath: /var/lib/puppet
               name: puppet
             - mountPath: /smart-proxy/config/settings.yml
@@ -73,10 +61,8 @@ spec:
             - mountPath: /smart-proxy/config/settings.d/puppetca.yml
               name: proxyconfig
               subPath: puppetca.yml
-            - mountPath: /etc/puppet
-              name: puppetconfig
           resources:
-{{ toYaml .Values.puppet.proxy.resources | indent 12 }}
+{{ toYaml .Values.puppet.resources | indent 12 }}
     {{- with .Values.puppet.nodeSelector }}
       nodeSelector:
 {{ toYaml . | indent 8 }}
@@ -93,7 +79,7 @@ spec:
         - name: puppet
           persistentVolumeClaim:
             claimName: {{ template "foreman.fullname" . }}-puppet
-        - name: puppetconfig 
+        - name: puppetconfig
           configMap:
             name: {{ template "foreman.fullname" . }}-puppet
         - name: proxyconfig
