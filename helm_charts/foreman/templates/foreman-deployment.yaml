@@ -34,6 +34,14 @@ spec:
             httpGet:
               path: /users/login
               port: http
+          livenessProbe:
+            httpGet:
+              path: /users/login
+              port: http
+            initialDelaySeconds: 500
+            periodSeconds: 10
+            failureThreshold: 6
+            timeoutSeconds: 2
           env:
             - name: PASSENGER_APP_ENV
               value: {{ .Values.foreman.railsenv | quote }}

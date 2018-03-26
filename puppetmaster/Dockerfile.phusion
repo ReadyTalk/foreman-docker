@@ -1,0 +1,36 @@
+FROM phusion/passenger-full:latest
+
+ENV LANG en_US.utf8
+ENV HOME /root
+ENV PUPPET_VERSION=3.8.7
+
+# From phusion passenger readme.  Enable nginx
+RUN rm -f /etc/service/nginx/down
+
+# Install some tools and dependencies
+RUN apt-get update && apt-get install -y \
+    git wget curl postgresql openssl libsqlite-dev ca-certificates \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Set the default ruby version
+RUN bash -lc 'rvm install ruby-2.3.6'
+RUN bash -lc 'rvm --default use ruby-2.3.6'
+
+# Install the nginx configuration
+RUN rm /etc/nginx/sites-enabled/default                           
+ADD puppet-nginx.conf /etc/nginx/sites-enabled/puppet-nginx.conf
+
+# Install foreman from source
+USER app
+WORKDIR /home/app
+RUN git clone https://github.com/puppetlabs/puppet.git -b 3.x
+
+
+WORKDIR /home/app/puppet
+
+# Install gems
+RUN gem install bundler
+RUN bundle install
+
+# Use baseimage-docker's init process.
+CMD ["/sbin/my_init"]
