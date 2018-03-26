@@ -22,8 +22,6 @@ spec:
         app: {{ template "foreman.name" . }}
         release: {{ .Release.Name }}
         component: puppet
-    annotations: 
-      checksum/config: {{ include (print $.Template.BasePath "/puppet-configmap.yaml") . | sha256sum }}
     spec:
       containers:
         - name: puppet

@@ -22,8 +22,6 @@ spec:
         app: {{ template "foreman.name" . }}
         release: {{ .Release.Name }}
         component: puppetdb
-    annotations:
-      checksum/config: {{ include (print $.Template.BasePath "/puppetdb-configmap.yaml") . | sha256sum }}
     spec:
       containers:
         - name: {{ .Chart.Name }}-postgres-puppetdb
