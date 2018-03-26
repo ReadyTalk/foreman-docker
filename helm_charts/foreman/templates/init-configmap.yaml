@@ -11,6 +11,8 @@ metadata:
 data:
   init.sh: |-
     #!/bin/bash
+    #echo "Fixing permissions..."
+    #chown -R 9999:9999 /home/app/foreman
     cd /home/app/foreman
     bundle exec rake db:migrate
     bundle exec rake db:seed
@@ -50,6 +52,6 @@ data:
     bundle exec rake permissions:reset RAILS_ENV={{ .Values.foreman.railsenv }}
 
     #Fix permissions
-    echo "Fixing permissions...."
-    #chown -R 9999:9999 /home/app/foreman
+    echo "Fixing permissions..."
+    chown -R 9999:9999 /home/app/foreman
 

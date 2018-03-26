@@ -51,11 +51,9 @@ spec:
               name: init
               subPath: init.sh
             - mountPath: /home/app/foreman/config/initializers/encryption_key.rb
-              readOnly: true
               name: encryptionkey
               subPath: encryption_key.rb
             - mountPath: /home/app/foreman/config/initializers/local_secret_token.rb
-              readOnly: true
               name: encryptionkey
               subPath: local_secret_token.rb
 {{ if .Values.puppet.enabled }}
