@@ -25,9 +25,13 @@ RUN sed -i 's/@hooks_to_call_on_application_initialization << setting/@hooks_to_
 RUN sed -i 's/@hooks_to_call_on_application_initialization << tryconfig/@hooks_to_call_on_application_initialization |= [ tryconfig ]/g' \
   /usr/lib/ruby/vendor_ruby/puppet/settings.rb
 
-#Add prometheus as an exporter for puppet reports
+# Add prometheus as an exporter for puppet reports
 ADD https://raw.githubusercontent.com/voxpupuli/puppet-prometheus_reporter/master/lib/puppet/reports/prometheus.rb /usr/lib/ruby/vendor_ruby/puppet/reports/prometheus.rb
 RUN chmod 644 /usr/lib/ruby/vendor_ruby/puppet/reports/prometheus.rb
+
+# Add the foreman reports processor
+ADD https://raw.githubusercontent.com/theforeman/puppet-foreman/master/files/foreman-report_v2.rb /usr/lib/ruby/vendor_ruby/puppet/reports/foreman.rb
+RUN chmod 644 /usr/lib/ruby/vendor_ruby/puppet/reports/foreman.rb
 
 ENTRYPOINT ["/usr/bin/dumb-init", "--"]
 
