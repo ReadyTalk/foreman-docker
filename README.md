@@ -1,22 +1,32 @@
 [![Build Status](https://travis-ci.org/ReadyTalk/foreman-docker.svg?branch=master)](https://travis-ci.org/ReadyTalk/foreman-docker)
 
-# Foreman Container for Kubernetes
+# Complete foreman in Kubernetes
+
+# Containers
+
+## Foreman
 
 This is based on the phusion base image.  https://github.com/phusion/passenger-docker
 
+## Puppetmaster
+
+A fairly basic puppetmaster and a foreman smart proxy.
+
+## Foreman-Proxy
+
+A generic container that runs the foreman smart proxy.  This can be used to attach smart proxies to any of the things that foreman can control.
+
 ## Background and Design
 
-The container sets up a default install of Foreman with a link to a postgres container.  There is a test script that will run the postgres container and foreman with the default configs in order to test it.  This container is ready to be launched into Kubernetes with configmaps and secrets, allowing it to be configured for any situation.
+The Foreman container sets up a default install of Foreman with a link to a postgres container.  There is a test script that will run the postgres container and foreman with the default configs in order to test it.  This container is ready to be launched into Kubernetes with configmaps and secrets, allowing it to be configured for any situation.
 
 Foreman is built from source and is tagged to the stable version of 1.14 (for now).  In order to test a new version, just change the version in the Dockerfile.
 
+I have added a puppetmaster and a puppetdb.  These can be turned off in the values file.
+
 ## Usage
 
-* Build the container:  `./build.sh` NOTE: if you are running Docker 1.13 or higher, feel free to add the --squash option to the build command
-* Run the test: `./start_test.sh`
-* Take note of the admin password that should be somewhere towards the end of the output
-
-Now you should have a running postgres container and a running foreman container.  Add `<test machine IP> foreman-test.domain.com` to your hosts file and go to foreman-test.domain.com:8080 in your browser.
+Travis builds the containers.  Then you can install them into Kubernetes using helm.
 
 ## Kubernetes
 
