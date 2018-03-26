@@ -70,6 +70,7 @@ data:
     :puppetconfdir: /var/lib/puppet/conf
     :puppetvardir: /var/lib/puppet
     :puppetssldir: /var/lib/puppet/ssl
+    :trusted_puppetmaster_hosts: [*]
 {{- end }}
     :mark_translated: false
     :webpack_dev_server: true

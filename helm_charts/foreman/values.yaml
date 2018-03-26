@@ -3,7 +3,9 @@
 # Declare variables to be passed into your templates.
 
 foreman:
-  replicaCount: 1 # This must stay one until a couple of things are fixed
+# You can run muliple instances as all of these requirements are satisfied:
+# https://theforeman.org/manuals/1.13/index.html#5.8MultipleForemaninstances
+  replicaCount: 4
   railsenv: production
   image:
     repository: readytalk/foreman-docker
