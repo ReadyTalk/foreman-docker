@@ -14,6 +14,7 @@ RUN apt-get update && apt-get install -y \
     libvirt-dev \
     puppetserver \
     ca-certificates \
+    puppetdb-terminus \
     ruby-dev \
     supervisor \
     && apt-get clean &&  rm -rf /var/lib/apt/lists/*
