@@ -47,8 +47,8 @@ data:
   hiera.yaml: {{ toYaml .Values.puppet.hieraConf | default "" | indent 2 }}
   puppetdb.conf: |-
     [main]
-    server = {{ template "foreman.fullname" . }}-puppetdb
-    port = {{ .Values.puppetdb.service.externalPort }}
+    server = {{ .Values.puppetdb.serverName }}
+    port = {{ .Values.puppetdb.serverPort }}
   auth.conf: {{ toYaml .Values.puppet.authConf | default "" | indent 2 }}
   prometheus.yaml: |-
     ---

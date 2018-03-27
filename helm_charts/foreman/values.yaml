@@ -9,7 +9,7 @@ foreman:
   railsenv: production
   image:
     repository: readytalk/foreman-docker
-    tag: 1.13.64-69a5629
+    tag: 1.13.71-e8402f7
     pullPolicy: IfNotPresent
   service:
     type: ClusterIP
@@ -43,7 +43,7 @@ puppet:
   enabled: true
   image:
     repository: readytalk/puppetmaster-docker
-    tag: 1.13.69-cd95308
+    tag: 1.13.71-e8402f7
     pullPolicy: IfNotPresent
   service:
     type: ClusterIP
@@ -97,9 +97,11 @@ puppet:
     logLevel: DEBUG
 
 puppetdb:
+  serverName: puppetdb.domain.com
+  serverPort: 443
   image:
     repository: readytalk/puppetdb-docker
-    tag: 1.13.64-69a5629
+    tag: 1.13.71-e8402f7
     pullPolicy: IfNotPresent
   postgres:
     username: puppetdb
@@ -120,6 +122,17 @@ puppetdb:
   nodeSelector: {}
   tolerations: []
   affinity: {}
+  ingress:
+    enabled: true
+    annotations:
+      kubernetes.io/ingress.class: nginx
+    path: /
+    hosts:
+      - puppetdb.domain.com
+    tls: []
+    #  - secretName: chart-example-tls
+    #    hosts:
+    #      - chart-example.local
 
 postgres:
   enabled: true
