@@ -34,13 +34,16 @@ spec:
             httpGet:
               path: /users/login
               port: http
+            periodSeconds: 10
+            timeoutSeconds: 30
+            failureThreshold: 5
           livenessProbe:
             httpGet:
               path: /users/login
               port: http
             initialDelaySeconds: 500
             periodSeconds: 10
-            failureThreshold: 6
+            failureThreshold: 20
             timeoutSeconds: 10
           env:
             - name: PASSENGER_APP_ENV
