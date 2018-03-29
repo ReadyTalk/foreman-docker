@@ -20,8 +20,8 @@ RUN apt-get update && apt-get install -y \
     && apt-get clean &&  rm -rf /var/lib/apt/lists/*
 
 #Install the gpg-eyaml gems
-RUN puppetserver gem install hiera-eyaml hiera-eyaml-gpg ruby_gpg
-RUN gem install hiera-eyaml hiera-eyaml-gpg ruby_gpg
+RUN puppetserver gem install hiera hiera-eyaml hiera-eyaml-gpg ruby_gpg
+RUN gem install hiera hiera-eyaml hiera-eyaml-gpg ruby_gpg
 
 #Backport for https://github.com/puppetlabs/puppet/pull/4752
 # 'ERF12-4115 [ProxyAPI::ProxyException]: Unable to get classes from Puppet for master Timed out reading data from server for proxy'
