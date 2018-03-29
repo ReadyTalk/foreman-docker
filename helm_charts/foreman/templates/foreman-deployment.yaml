@@ -42,9 +42,9 @@ spec:
               path: /users/login
               port: http
             initialDelaySeconds: 500
-            periodSeconds: 10
-            failureThreshold: 20
-            timeoutSeconds: 10
+            periodSeconds: 30
+            failureThreshold: 5
+            timeoutSeconds: 30
           env:
             - name: PASSENGER_APP_ENV
               value: {{ .Values.foreman.railsenv | quote }}

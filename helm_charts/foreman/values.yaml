@@ -9,7 +9,7 @@ foreman:
   railsenv: production
   image:
     repository: readytalk/foreman-docker
-    tag: 1.13.71-e8402f7
+    tag: 1.13.76-ddd85cb
     pullPolicy: IfNotPresent
   service:
     type: ClusterIP
@@ -43,7 +43,7 @@ puppet:
   enabled: true
   image:
     repository: readytalk/puppetmaster-docker
-    tag: 1.13.71-e8402f7
+    tag: 1.13.76-ddd85cb
     pullPolicy: IfNotPresent
   service:
     type: ClusterIP
@@ -101,7 +101,7 @@ puppetdb:
   serverPort: 443
   image:
     repository: readytalk/puppetdb-docker
-    tag: 1.13.71-e8402f7
+    tag: 1.13.76-ddd85cb
     pullPolicy: IfNotPresent
   postgres:
     username: puppetdb
