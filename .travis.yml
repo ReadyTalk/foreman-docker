@@ -6,13 +6,11 @@ services:
 env:
   global:
   - COMMIT=${TRAVIS_COMMIT::7}
-  - MAJ_VERSION="1.13"
-  - TAG=$MAJ_VERSION.$TRAVIS_BUILD_NUMBER-$COMMIT
   matrix:
-  - IMAGE_NAME=foreman-docker CONTAINER_PATH=foreman
-  - IMAGE_NAME=puppetmaster-docker CONTAINER_PATH=puppetmaster
-  - IMAGE_NAME=puppetdb-docker CONTAINER_PATH=puppetdb
-  - IMAGE_NAME=foremanproxy-docker CONTAINER_PATH=foreman-proxy
+  - IMAGE_NAME=foreman-docker CONTAINER_PATH=foreman MAJ_VERSION=1.13
+  - IMAGE_NAME=puppetmaster-docker CONTAINER_PATH=puppetmaster MAJ_VERSION=1.2
+  - IMAGE_NAME=puppetdb-docker CONTAINER_PATH=puppetdb MAJ_VERSION=2.3.8
+  - IMAGE_NAME=foremanproxy-docker CONTAINER_PATH=foreman-proxy  MAJ_VERSION=1.13
 install: true
 script:
 - cd $CONTAINER_PATH
