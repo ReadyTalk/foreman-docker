@@ -1,0 +1,4 @@
+dependencies:
+  - name: memcached
+    repository: stable/memcached
+    alias: memcached
