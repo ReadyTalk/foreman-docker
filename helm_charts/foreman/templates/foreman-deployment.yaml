@@ -43,7 +43,7 @@ spec:
               port: http
             initialDelaySeconds: 500
             periodSeconds: 30
-            failureThreshold: 5
+            failureThreshold: 10
             timeoutSeconds: 30
           env:
             - name: PASSENGER_APP_ENV
