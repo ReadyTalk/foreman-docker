@@ -66,6 +66,49 @@ spec:
               subPath: puppetca.yml
           resources:
 {{ toYaml .Values.puppet.resources | indent 12 }}
+        - name: puppet-prom-exporter
+          image: quay.io/prometheus/node-exporter:latest
+          imagePullPolicy: Always
+          ports:
+            - name: prometheus
+              protocol: TCP
+              containerPort: 9100
+          volumeMounts:
+            - mountPath: /data
+              name: puppet
+          args:
+            - --collector.textfile.directory=/data/prometheus-dropzone
+            - --no-collector.arp
+            - --no-collector.bcache
+            - --no-collector.bonding
+            - --no-collector.conntrack
+            - --no-collector.cpu
+            - --no-collector.diskstats
+            - --no-collector.edac
+            - --no-collector.entropy
+            - --no-collector.exec
+            - --no-collector.filefd
+            - --no-collector.filesystem
+            - --no-collector.hwmon
+            - --no-collector.infiniband
+            - --no-collector.ipvs
+            - --no-collector.loadavg
+            - --no-collector.mdadm
+            - --no-collector.meminfo
+            - --no-collector.netdev
+            - --no-collector.netstat
+            - --no-collector.nfs
+            - --no-collector.nfsd
+            - --no-collector..sockstat
+            - --no-collector.stat
+            - --no-collector.textfile
+            - --no-collector.time
+            - --no-collector.timex
+            - --no-collector.uname
+            - --no-collector.vmstat
+            - --no-collector.wifi
+            - --no-collector.xfs
+            - --no-collector.zfs
     {{- with .Values.puppet.nodeSelector }}
       nodeSelector:
 {{ toYaml . | indent 8 }}
