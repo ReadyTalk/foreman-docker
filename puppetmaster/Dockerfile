@@ -19,6 +19,10 @@ RUN apt-get update && apt-get install -y \
     supervisor \
     && apt-get clean &&  rm -rf /var/lib/apt/lists/*
 
+# Add the puppetserver.conf file and don't install stuff to /var/lib/puppet
+RUN mkdir -p /var/lib/puppetserver/jruby-gems
+ADD $(pwd)/puppetserver.conf /etc/puppetserver/conf.d/puppetserver.conf
+
 #Backport for https://github.com/puppetlabs/puppet/pull/4752
 # 'ERF12-4115 [ProxyAPI::ProxyException]: Unable to get classes from Puppet for master Timed out reading data from server for proxy'
 RUN sed -i 's/@hooks_to_call_on_application_initialization << setting/@hooks_to_call_on_application_initialization |= [ setting ]/g' \
