@@ -37,14 +37,14 @@ spec:
             periodSeconds: 10
             timeoutSeconds: 30
             failureThreshold: 5
-         livenessProbe:
-           httpGet:
-             path: /users/login
-             port: http
-           initialDelaySeconds: 500
-           periodSeconds: 30
-           failureThreshold: 10
-           timeoutSeconds: 30
+          livenessProbe:
+            httpGet:
+              path: /users/login
+              port: http
+            initialDelaySeconds: 500
+            periodSeconds: 30
+            failureThreshold: 10
+            timeoutSeconds: 30
           env:
             - name: PASSENGER_APP_ENV
               value: {{ .Values.foreman.railsenv | quote }}
@@ -52,6 +52,12 @@ spec:
             - mountPath: /etc/nginx/sites-enabled/foreman-nginx.conf
               name: config
               subPath: foreman-nginx.conf
+            - mountPath: /etc/nginx/nginx.confg
+              name: config
+              subPath: nginx.conf
+            - mountPath: /etc/nginx/passenger.conf
+              name: config
+              subPath: passenger.conf
             - mountPath: /home/app/foreman/config/database.yml
               name: config
               subPath: database.yml
