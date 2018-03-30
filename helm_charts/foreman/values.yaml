@@ -115,6 +115,7 @@ puppetdb:
     internalPort: 8080
     internalPortSSL: 8081
     externalPort: 8080
+    externalPortSSL: 8081
     type: ClusterIP
   caPath: /path/to/ca/cert.pem
   certPath: /path/to/cert.pem
