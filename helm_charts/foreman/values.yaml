@@ -5,7 +5,7 @@
 foreman:
 # You can run muliple instances as all of these requirements are satisfied:
 # https://theforeman.org/manuals/1.13/index.html#5.8MultipleForemaninstances
-  replicaCount: 1
+  replicaCount: 5
   railsenv: production
   image:
     repository: readytalk/foreman-docker
