@@ -42,6 +42,9 @@ data:
         root /home/app/foreman/public;
         passenger_enabled on;
         passenger_user app;
+        passenger_max_request_queue_size 500;
+        passenger_max_requests 1000;
+        passenger_max_pool_size 20;
 
         # Specify a Ruby version:
         passenger_ruby /usr/bin/ruby2.3;
