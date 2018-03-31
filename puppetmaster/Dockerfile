@@ -54,6 +54,6 @@ ADD supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # Fix puppet binary locations
 RUN rm /usr/bin/puppet
-RUN ln -s /usr/bin/puppet /usr/local/bundle/bin/puppet
+RUN ln -s /usr/local/bundle/bin/puppet /usr/bin/puppet
 
 CMD ["/usr/bin/supervisord"]
