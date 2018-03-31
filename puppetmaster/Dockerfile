@@ -41,6 +41,8 @@ RUN chmod 644 /usr/lib/ruby/vendor_ruby/puppet/reports/foreman.rb
 # Install the foreman proxy
 RUN git clone https://github.com/theforeman/smart-proxy.git -b ${FOREMAN_VERSION}
 WORKDIR /smart-proxy
+# Change the version of puppet so that we don't break more stuff
+RUN sed -i 's/<\ 5\.0\.0/<=\ 3\.8\.7/' bundler.d/puppet.rb
 RUN bundle install
 
 #Install the gpg-eyaml gems
