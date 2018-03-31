@@ -8,14 +8,14 @@ ENV FOREMAN_VERSION=1.13-stable
 # From phusion passenger readme.  Enable nginx
 RUN rm -f /etc/service/nginx/down
 
+# Set the default ruby version
+RUN bash -lc 'rvm install ruby-2.3.6'
+RUN bash -lc 'rvm --default use ruby-2.3.6'
+
 # Install some tools and dependencies
 RUN apt-get update && apt-get install -y \
     git wget curl libvirt-dev postgresql openssl libsqlite-dev ca-certificates \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
-
-# Set the default ruby version
-RUN bash -lc 'rvm install ruby-2.3.6'
-RUN bash -lc 'rvm --default use ruby-2.3.6'
 
 # Install the nginx configuration
 RUN rm /etc/nginx/sites-enabled/default
@@ -42,11 +42,6 @@ RUN gem install bundler
 RUN bundle install
 USER root
 RUN npm install
-
-# Precompile the assets so that the container doesn't require more init
-RUN bundle exec rake assets:precompile
-RUN bundle exec rake locale:pack
-RUN bundle exec rake webpack:compile
 
 # Use baseimage-docker's init process.
 CMD ["/sbin/my_init"]
