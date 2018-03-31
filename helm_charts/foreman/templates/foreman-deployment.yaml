@@ -52,9 +52,6 @@ spec:
             - mountPath: /etc/nginx/sites-enabled/foreman-nginx.conf
               name: config
               subPath: foreman-nginx.conf
-            - mountPath: /etc/nginx/nginx.confg
-              name: config
-              subPath: nginx.conf
             - mountPath: /etc/nginx/passenger.conf
               name: config
               subPath: passenger.conf
