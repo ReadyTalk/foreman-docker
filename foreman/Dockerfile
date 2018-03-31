@@ -18,7 +18,7 @@ RUN bash -lc 'rvm install ruby-2.3.6'
 RUN bash -lc 'rvm --default use ruby-2.3.6'
 
 # Install the nginx configuration
-RUN rm /etc/nginx/sites-enabled/default                           
+RUN rm /etc/nginx/sites-enabled/default
 ADD foreman-nginx.conf /etc/nginx/sites-enabled/foreman-nginx.conf
 
 # Install foreman from source
@@ -35,13 +35,18 @@ ADD ${PWD}/database.yml config/database.yml
 RUN cp config/settings.yaml.example config/settings.yaml
 
 # Install the foreman-xen plugin
-RUN echo "gem 'foreman_xen'" > ./bundler.d/foreman_xen.rb  
+RUN echo "gem 'foreman_xen'" > ./bundler.d/foreman_xen.rb
 
 # Install foreman and plugins
 RUN gem install bundler
 RUN bundle install
 USER root
-RUN npm install 
+RUN npm install
+
+# Precompile the assets so that the container doesn't require more init
+RUN bundle exec rake assets:precompile
+RUN bundle exec rake locale:pack
+RUN bundle exec rake webpack:compile
 
 # Use baseimage-docker's init process.
 CMD ["/sbin/my_init"]
