@@ -48,7 +48,21 @@ spec:
               name: postgres
           resources:
 {{ toYaml .Values.postgres.resources | indent 12 }}
-    {{- with .Values.postgres.nodeSelector }}
+        - name: postgres-prom-exporter
+          image: wrouesnel/postgres_exporter:latest
+          imagePullPolicy: Always
+          ports:
+            - name: prometheus
+              containerPort: 9187
+              protocol: TCP
+          env:
+            - name: DATA_SOURCE_URI
+              value: "localhost:5432/?sslmode=disable"
+            - name: DATA_SOURCE_USER
+              value: {{ .Values.postgres.user }}
+            - name: DATA_SOURCE_PASS
+              value: {{ .Values.postgres.password }}
+{{- with .Values.postgres.nodeSelector }}
       nodeSelector:
 {{ toYaml . | indent 8 }}
     {{- end }}
