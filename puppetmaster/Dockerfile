@@ -52,4 +52,8 @@ RUN gem install hiera hiera-eyaml hiera-eyaml-gpg ruby_gpg
 # Setup supervisord to run the proxy and master
 ADD supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
+# Fix puppet binary locations
+RUN rm /usr/bin/puppet
+RUN ln -s /usr/bin/puppet /usr/local/bundle/bin/puppet
+
 CMD ["/usr/bin/supervisord"]
