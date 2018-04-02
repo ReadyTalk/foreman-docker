@@ -11,13 +11,20 @@ metadata:
 spec:
   type: {{ .Values.puppetdb.service.type }}
   ports:
-    - port: {{ .Values.puppetdb.service.externalPort }}
-      targetPort: {{ .Values.puppetdb.service.internalPort }}
-{{- if .Values.puppetdb.service.nodePort }}
-      nodePort: {{ .Values.puppetdb.service.nodePort }}
+    - port: {{ .Values.puppetdb.service.nonSSL.externalPort }}
+      targetPort: {{ .Values.puppetdb.service.nonSSL.internalPort }}
+{{- if .Values.puppetdb.service.nonSSL.nodePort }}
+      nodePort: {{ .Values.puppetdb.service.nonSSL.nodePort }}
 {{- end }}
       protocol: TCP
       name: http
+    - port: {{ .Values.puppetdb.service.SSL.externalPort }}
+      targetPort: {{ .Values.puppetdb.service.SSL.internalPort }}
+      protocol: TCP
+      name: https
+{{- if .Values.puppetdb.service.SSL.nodePort }}
+      nodePort: {{ .Values.puppetdb.service.SSL.nodePort }}
+{{- end }}
   selector:
     app: {{ template "foreman.name" . }}
     release: {{ .Release.Name }}

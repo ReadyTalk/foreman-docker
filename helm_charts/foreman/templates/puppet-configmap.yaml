@@ -18,17 +18,17 @@ data:
       ssldir=/var/lib/puppet/ssl
       rundir=/var/run/puppet
       factpath=$vardir/lib/facter
-      autosign=/etc/puppet/autosign.conf
+      autosign=/var/lib/puppet/autosign.con {owner = service, group = service, mode = 664 }
       templatedir=$confdir/templates
-      privatekeydir = $ssldir/private_keys { group = service }
-      hostprivkey = $privatekeydir/$certname.pem { mode = 640 }
+      privatekeydir = $ssldir/private_keys { group = service, mode=755 }
+      hostprivkey = $privatekeydir/$certname.pem { mode = 644 }
 
     [master]
       certname={{ .Values.puppet.serverName }}
       server={{ .Values.puppet.serverName }}
       ssl_client_header = SSL_CLIENT_S_DN
       ssl_client_verify_header = SSL_CLIENT_VERIFY
-      storeconfigs=false
+      storeconfigs=true
       storeconfigs_backend = puppetdb
       node_terminus = exec
       external_nodes = /var/lib/puppet/external_node.rb
@@ -43,13 +43,13 @@ data:
       environment = production
       environmentpath = /var/lib/puppet/environments
       #manifest    = /var/lib/puppet/environments/$environment/manifests/site.pp
-      modulepath  = /var/lib/puppet/environments/$environment/modules:/var/lib/puppet/environments/$environment/local
+      #modulepath  = /var/lib/puppet/environments/$environment/modules:/var/lib/puppet/environments/$environment/local
   fileserver.conf: {{ toYaml .Values.puppet.fileserverConf | default "" | indent 2 }}
   hiera.yaml: {{ toYaml .Values.puppet.hieraConf | default "" | indent 2 }}
   puppetdb.conf: |-
     [main]
-    server = {{ template "foreman.fullname" . }}-puppetdb
-    port = {{ .Values.puppetdb.service.externalPort }}
+    server = {{ .Values.puppetdb.serverName }}
+    port = {{ .Values.puppetdb.serverPort }}
   auth.conf: {{ toYaml .Values.puppet.authConf | default "" | indent 2 }}
   prometheus.yaml: |-
     ---
@@ -57,10 +57,10 @@ data:
   foreman.yaml: |-
     ---
     # Update for your Foreman and Puppet master hostname(s)
-    :url: http://{{ template "foreman.fullname" . }}:{{ .Values.foreman.service.externalPort }}
-    :ssl_ca: {{ .Values.foreman.caName | quote }}
-    :ssl_cert: {{ .Values.foreman.certName | quote }}
-    :ssl_key: {{ .Values.foreman.privkeyName | quote }}
+    :url: https://{{ template "foreman.fullname" . }}:{{ .Values.foreman.service.externalPortSSL }}
+    :ssl_ca: {{ .Values.puppet.caName | quote }}
+    :ssl_cert: {{ .Values.puppet.certName | quote }}
+    :ssl_key: {{ .Values.puppet.privkeyName | quote }}
 
     # Advanced settings
     :puppetdir: "/var/lib/puppet"

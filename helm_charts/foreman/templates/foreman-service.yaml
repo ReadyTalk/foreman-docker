@@ -14,6 +14,10 @@ spec:
       targetPort: {{ .Values.foreman.service.internalPort }}
       protocol: TCP
       name: http
+    - port: {{ .Values.foreman.service.externalPortSSL }}
+      targetPort: {{ .Values.foreman.service.internalPortSSL }}
+      protocol: TCP
+      name: https
   selector:
     app: {{ template "foreman.name" . }}
     release: {{ .Release.Name }}

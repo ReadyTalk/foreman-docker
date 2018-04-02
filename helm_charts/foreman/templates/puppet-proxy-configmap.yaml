@@ -13,14 +13,16 @@ data:
   settings.yml: |-
     ---
     :bind_host: '*'
-    :http_port: {{ .Values.puppet.proxy.service.internalPort }}
+    :http_port: {{ .Values.puppet.proxy.service.nonSSL.internalPort }}
+    :https_port: {{ .Values.puppet.proxy.service.SSL.internalPort }}
     :log_file: STDOUT
-    # Uncomment and modify if you want to change the log level
-    # WARN, DEBUG, ERROR, FATAL, INFO, UNKNOWN
+    :ssl_certificate: {{ .Values.puppet.proxy.certName }}
+    :ssl_ca_file: {{ .Values.puppet.proxy.certName }}
+    :ssl_private_key: {{ .Values.puppet.proxy.privkeyName }}
     :log_level: {{ .Values.puppet.proxy.logLevel }}
   puppet.yml: |-
     ---
-    :enabled: http
+    :enabled: true
     :puppet_version: 3.8
     # valid providers:
     #   puppet_proxy_ssh         (run puppet over ssh)
@@ -30,18 +32,18 @@ data:
   puppet_proxy_legacy.yml: |-
     ---
     :puppet_conf: /etc/puppet/puppet.conf
-    :puppet_url: https://localhst:8140
-    :puppet_ssl_ca: {{ .Values.foreman.caName }}
-    :puppet_ssl_cert: {{ .Values.foreman.certName }}
-    :puppet_ssl_key: {{ .Values.foreman.privkeyName }}
+    :puppet_url: https://puppet:8140
+    :puppet_ssl_ca: {{ .Values.puppet.caName }}
+    :puppet_ssl_cert: {{ .Values.puppet.certName }}
+    :puppet_ssl_key: {{ .Values.puppet.privkeyName }}
     :use_cache: true
   puppetca.yml: |-
     ---
-    # Can be true, false, or http/https to enable just one of the protocols
-    :enabled: true
+    :enabled: false
     
     :ssldir: /var/lib/puppet/ssl
-    :puppetdir: /etc/puppet
-    #:puppetca_use_sudo: true
-    #:sudo_command: /usr/bin/sudo
+    :puppetdir: /var/lib/puppet
+    :puppetca_use_sudo: false
+  logs.yml: |-
+    :enabled: true
 {{- end -}}

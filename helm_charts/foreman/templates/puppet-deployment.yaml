@@ -32,7 +32,10 @@ spec:
               containerPort: {{ .Values.puppet.service.internalPort }}
               protocol: TCP
             - name: proxy
-              containerPort: {{ .Values.puppet.proxy.service.internalPort }}
+              containerPort: {{ .Values.puppet.proxy.service.nonSSL.internalPort }}
+              protocol: TCP
+            - name: proxy-ssl
+              containerPort: {{ .Values.puppet.proxy.service.SSL.internalPort }}
               protocol: TCP
           readinessProbe:
             httpGet:

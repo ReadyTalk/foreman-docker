@@ -45,7 +45,6 @@ spec:
         - name: {{ .Chart.Name }}-puppetdb
           image: "{{ .Values.puppetdb.image.repository }}:{{ .Values.puppetdb.image.tag }}"
           imagePullPolicy: {{ .Values.puppetdb.image.pullPolicy }}
-          command: ["/usr/sbin/puppetdb", "foreground", "--debug"]
           ports:
             - name: puppetdb
               containerPort: 8080

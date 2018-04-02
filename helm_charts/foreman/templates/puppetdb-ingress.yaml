@@ -1,6 +1,6 @@
 {{- if .Values.puppetdb.ingress.enabled -}}
 {{- $fullName := include "foreman.fullname" . -}}
-{{- $servicePort := .Values.puppetdb.service.externalPort -}}
+{{- $servicePort := .Values.puppetdb.service.SSL.externalPort -}}
 {{- $ingressPath := .Values.puppetdb.ingress.path -}}
 apiVersion: extensions/v1beta1
 kind: Ingress
