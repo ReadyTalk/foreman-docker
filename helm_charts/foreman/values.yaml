@@ -116,14 +116,14 @@ puppetdb:
       tag: 9.5-alpine
       pullPolicy: IfNotPresent
   service:
+    type: ClusterIP
     SSL:
       internalPort: 8081
       externalPort: 8081
-      type: ClusterIP
     nonSSL:
       internalPort: 8080
       externalPort: 8080
-      type: ClusterIP
+    annotations: {}
   caPath: /path/to/ca/cert.pem
   certPath: /path/to/cert.pem
   privkeyPath: /path/to/privkey.pem

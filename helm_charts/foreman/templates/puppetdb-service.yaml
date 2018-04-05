@@ -8,6 +8,10 @@ metadata:
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
     component: puppetdb
+{{- with .Values.puppetdb.service.annotations}}
+  annotations:
+{{ toYaml . | indent 4 }}
+{{- end }}
 spec:
   type: {{ .Values.puppetdb.service.type }}
   ports:
