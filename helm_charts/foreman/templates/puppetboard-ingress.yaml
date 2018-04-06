@@ -1,5 +1,4 @@
 {{- if .Values.puppetboard.ingress.enabled -}}
-{{- $fullName := include "foreman.fullname" . -}}
 {{- $servicePort := .Values.puppetboard.service.externalPort -}}
 {{- $ingressPath := .Values.puppetboard.ingress.path -}}
 apiVersion: extensions/v1beta1
@@ -33,7 +32,7 @@ spec:
         paths:
           - path: {{ $ingressPath }}
             backend:
-              serviceName: {{ $fullName }}
+              serviceName: puppetboard
               servicePort: http
   {{- end }}
 {{- end }}
