@@ -183,3 +183,13 @@ ingress:
   #  - secretName: chart-example-tls
   #    hosts:
   #      - chart-example.local
+
+puppetboard:
+  image:
+    repository: readytalk/puppetboard-docker
+    tag: latest
+    pullPolicy: Always
+  service:
+    type: ClusterIP
+    internalPort: 80
+    externalPort: 80
