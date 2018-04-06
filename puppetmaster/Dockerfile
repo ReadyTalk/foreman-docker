@@ -20,6 +20,7 @@ RUN apt-get update && apt-get install -y \
     puppetserver \
     ca-certificates \
     puppetdb-terminus \
+    openjdk-7-jre \
     ruby-dev \
     supervisor \
     foreman-proxy \
