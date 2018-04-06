@@ -1,0 +1,39 @@
+{{- if .Values.puppetboard.ingress.enabled -}}
+{{- $fullName := include "foreman.fullname" . -}}
+{{- $servicePort := .Values.puppetboard.service.externalPort -}}
+{{- $ingressPath := .Values.puppetboard.ingress.path -}}
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: puppetboard
+  labels:
+    app: {{ template "foreman.name" . }}
+    chart: {{ template "foreman.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+{{- with .Values.puppetboard.ingress.annotations }}
+  annotations:
+{{ toYaml . | indent 4 }}
+{{- end }}
+spec:
+{{- if .Values.puppetboard.ingress.tls }}
+  tls:
+  {{- range .Values.puppetboard.ingress.tls }}
+    - hosts:
+      {{- range .hosts }}
+        - {{ . }}
+      {{- end }}
+      secretName: {{ .secretName }}
+  {{- end }}
+{{- end }}
+  rules:
+  {{- range .Values.puppetboard.ingress.hosts }}
+    - host: {{ . }}
+      http:
+        paths:
+          - path: {{ $ingressPath }}
+            backend:
+              serviceName: {{ $fullName }}
+              servicePort: http
+  {{- end }}
+{{- end }}

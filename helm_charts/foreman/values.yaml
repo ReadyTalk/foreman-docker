@@ -95,6 +95,14 @@ puppet:
         externalPort: 8000
     logLevel: INFO
 
+puppetserver:
+  webserverConf: |-
+    webserver: {
+        client-auth = need
+        ssl-host = 0.0.0.0
+        ssl-port = 8140
+    }
+
 puppetdb:
   serverName: puppetdb.domain.com
   serverPort: 443
@@ -187,9 +195,16 @@ ingress:
 puppetboard:
   image:
     repository: readytalk/puppetboard-docker
-    tag: latest
+    tag: 0.0.5.116-b88d4f7
     pullPolicy: Always
   service:
     type: ClusterIP
     internalPort: 80
     externalPort: 80
+  ingress:
+    enabled: true
+    annotations:
+      kubernetes.io/ingress.class: nginx
+    path: /
+    hosts:
+      - puppetboard.readytalk.i
