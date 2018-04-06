@@ -7,6 +7,10 @@ metadata:
     chart: {{ template "foreman.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
+{{- with .Values.foreman.service.annotations }}
+  annotations:
+{{ toYaml . | indent 4 }}
+{{- end }}
 spec:
   type: {{ .Values.foreman.service.type }}
   ports:
@@ -14,10 +18,16 @@ spec:
       targetPort: {{ .Values.foreman.service.internalPort }}
       protocol: TCP
       name: http
+{{- if .Values.foreman.service.nodePort }}
+      nodePort: {{ .Values.foreman.service.nodePort }}
+{{- end }}
     - port: {{ .Values.foreman.service.externalPortSSL }}
       targetPort: {{ .Values.foreman.service.internalPortSSL }}
       protocol: TCP
       name: https
+{{- if .Values.foreman.service.nodePortSSL }}
+      nodePort: {{ .Values.foreman.service.nodePortSSL }}
+{{- end }}
   selector:
     app: {{ template "foreman.name" . }}
     release: {{ .Release.Name }}

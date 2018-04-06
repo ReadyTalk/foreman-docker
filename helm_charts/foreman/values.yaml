@@ -17,13 +17,8 @@ foreman:
     externalPort: 80
     internalPortSSL: 443
     externalPortSSL: 443
+    annotations: {}
   resources: {}
-    # limits:
-    #  cpu: 100m
-    #  memory: 128Mi
-    # requests:
-    #  cpu: 100m
-    #  memory: 128Mi
   nodeSelector: {}
   tolerations: []
   affinity: {}
@@ -43,7 +38,7 @@ puppet:
   enabled: true
   image:
     repository: readytalk/puppetmaster-docker
-    tag: 1.2.100-9f1ec79
+    tag: 1.2.109-a565343
     pullPolicy: IfNotPresent
   service:
     type: ClusterIP

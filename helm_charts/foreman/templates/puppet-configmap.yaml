@@ -18,13 +18,14 @@ data:
       ssldir=/var/lib/puppet/ssl
       rundir=/var/run/puppet
       factpath=$vardir/lib/facter
-      autosign=/var/lib/puppet/autosign.con {owner = service, group = service, mode = 664 }
-      templatedir=$confdir/templates
+      autosign=/var/lib/puppet/autosign.conf {owner = service, group = service, mode = 664 }
+      #templatedir=$confdir/templates
       privatekeydir = $ssldir/private_keys { group = service, mode=755 }
-      hostprivkey = $privatekeydir/$certname.pem { mode = 644 }
 
     [master]
-      certname={{ .Values.puppet.serverName }}
+      certname={{ .Values.puppet.certShortName }}
+      hostcert = {{ .Values.puppet.certName }} { mode = 644 }
+      hostprivkey = {{ .Values.puppet.privkeyName }} { mode = 644 }
       server={{ .Values.puppet.serverName }}
       ssl_client_header = SSL_CLIENT_S_DN
       ssl_client_verify_header = SSL_CLIENT_VERIFY
@@ -46,6 +47,8 @@ data:
       #modulepath  = /var/lib/puppet/environments/$environment/modules:/var/lib/puppet/environments/$environment/local
   fileserver.conf: {{ toYaml .Values.puppet.fileserverConf | default "" | indent 2 }}
   hiera.yaml: {{ toYaml .Values.puppet.hieraConf | default "" | indent 2 }}
+  webserver.conf: {{ toYaml .Values.puppetserver.webserverConf | default "" | indent 2 }}
+  ca.conf: {{ toYaml .Values.puppetserver.caConf | default "" | indent 2 }}
   puppetdb.conf: |-
     [main]
     server = {{ .Values.puppetdb.serverName }}

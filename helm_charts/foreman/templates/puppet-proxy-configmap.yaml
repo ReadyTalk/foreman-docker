@@ -17,7 +17,7 @@ data:
     :https_port: {{ .Values.puppet.proxy.service.SSL.internalPort }}
     :log_file: STDOUT
     :ssl_certificate: {{ .Values.puppet.proxy.certName }}
-    :ssl_ca_file: {{ .Values.puppet.proxy.certName }}
+    :ssl_ca_file: {{ .Values.puppet.proxy.caName }}
     :ssl_private_key: {{ .Values.puppet.proxy.privkeyName }}
     :log_level: {{ .Values.puppet.proxy.logLevel }}
   puppet.yml: |-
@@ -39,7 +39,7 @@ data:
     :use_cache: true
   puppetca.yml: |-
     ---
-    :enabled: false
+    :enabled: true
     
     :ssldir: /var/lib/puppet/ssl
     :puppetdir: /var/lib/puppet

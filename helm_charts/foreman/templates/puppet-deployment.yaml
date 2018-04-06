@@ -23,6 +23,10 @@ spec:
         release: {{ .Release.Name }}
         component: puppet
     spec:
+      hostAliases:
+      - ip: "127.0.0.1"
+        hostnames:
+        - {{ .Values.puppet.serverName }}
       containers:
         - name: puppet
           image: "{{ .Values.puppet.image.repository }}:{{ .Values.puppet.image.tag }}"
@@ -38,13 +42,15 @@ spec:
               containerPort: {{ .Values.puppet.proxy.service.SSL.internalPort }}
               protocol: TCP
           readinessProbe:
-            httpGet:
+            tcpSocket:
               port: puppet
-              path: /stage/status/whatever
-              scheme: HTTPS
-              httpHeaders:
-              - name: Accept
-                value: "*/*"
+#            httpGet:
+#              port: puppet
+#              path: /stage/status/whatever
+#              scheme: HTTPS
+#              httpHeaders:
+#              - name: Accept
+#                value: "*/*"
             periodSeconds: 20
             failureThreshold: 5
             timeoutSeconds: 10
@@ -55,18 +61,24 @@ spec:
               name: puppetconfig
             - mountPath: /var/lib/puppet
               name: puppet
-            - mountPath: /smart-proxy/config/settings.yml
+            - mountPath: /etc/foreman-proxy/settings.yml
               name: proxyconfig
               subPath: settings.yml
-            - mountPath: /smart-proxy/config/settings.d/puppet.yml
+            - mountPath: /etc/foreman-proxy/settings.d/puppet.yml
               name: proxyconfig
               subPath: puppet.yml
-            - mountPath: /smart-proxy/config/settings.d/puppet_proxy_legacy.yml
+            - mountPath: /etc/foreman-proxy/settings.d/puppet_proxy_legacy.yml
               name: proxyconfig
               subPath: puppet_proxy_legacy.yml
-            - mountPath: /smart-proxy/config/settings.d/puppetca.yml
+            - mountPath: /etc/foreman-proxy/settings.d/puppetca.yml
               name: proxyconfig
               subPath: puppetca.yml
+            - mountPath: /etc/puppetserver/conf.d/webserver.conf
+              name: puppetconfig
+              subPath: webserver.conf
+            - mountPath: /etc/puppetserver/conf.d/ca.conf
+              name: puppetconfig
+              subPath: ca.conf
           resources:
 {{ toYaml .Values.puppet.resources | indent 12 }}
         - name: puppet-prom-exporter
