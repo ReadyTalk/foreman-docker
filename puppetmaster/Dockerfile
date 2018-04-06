@@ -1,7 +1,12 @@
-FROM ruby:2.3-jessie
+#FROM ruby:2.3-jessie
+FROM debian:jessie-slim
 
 ADD https://apt.puppetlabs.com/puppetlabs-release-wheezy.deb /puppetlabs.deb
 RUN dpkg -i /puppetlabs.deb
+
+RUN echo "deb http://deb.theforeman.org/ jessie 1.13" >> /etc/apt/sources.list.d/foreman.list
+ADD https://deb.theforeman.org/pubkey.gpg /foreman-public.gpg
+RUN apt-key add /foreman-public.gpg
 
 ENV FOREMAN_VERSION=1.13-stable
 
@@ -17,6 +22,7 @@ RUN apt-get update && apt-get install -y \
     puppetdb-terminus \
     ruby-dev \
     supervisor \
+    foreman-proxy \
     && apt-get clean &&  rm -rf /var/lib/apt/lists/*
 
 # Add the puppetserver.conf file and don't install stuff to /var/lib/puppet
@@ -39,12 +45,12 @@ ADD https://raw.githubusercontent.com/theforeman/puppet-foreman/master/files/for
 RUN chmod 644 /usr/lib/ruby/vendor_ruby/puppet/reports/foreman.rb
 
 # Install the foreman proxy
-RUN git clone https://github.com/theforeman/smart-proxy.git -b ${FOREMAN_VERSION}
-WORKDIR /smart-proxy
-
-# Change the version of puppet so that we don't break more stuff
-RUN sed -i 's/<\ 5\.0\.0/<=\ 3\.8\.7/' bundler.d/puppet.rb
-RUN bundle install
+#RUN git clone https://github.com/theforeman/smart-proxy.git -b ${FOREMAN_VERSION}
+#WORKDIR /smart-proxy
+#
+## Change the version of puppet so that we don't break more stuff
+#RUN sed -i 's/<\ 5\.0\.0/<=\ 3\.8\.7/' bundler.d/puppet.rb
+#RUN bundle install
 
 #Install the gpg-eyaml gems
 RUN puppetserver gem install hiera hiera-eyaml hiera-eyaml-gpg ruby_gpg
