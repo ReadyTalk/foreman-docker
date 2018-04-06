@@ -1,0 +1,14 @@
+{{- if and .Values.puppet.enabled -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: puppetboard
+  labels:
+    app: {{ template "foreman.name" . }}
+    chart: {{ template "foreman.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+    component: puppetboard
+data:
+  settings.py: {{ toYaml .Values.puppetboard.settings | default "" | indent 2 }}
+{{- end -}}

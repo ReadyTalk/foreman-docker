@@ -2,7 +2,7 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: {{ template "foreman.fullname" . }}-puppetboard
+  name: puppetboard
   labels:
     app: {{ template "foreman.name" . }}
     chart: {{ template "foreman.chart" . }}
@@ -10,7 +10,7 @@ metadata:
     heritage: {{ .Release.Service }}
     component: puppetboard
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       app: {{ template "foreman.name" . }}
@@ -39,27 +39,19 @@ spec:
             periodSeconds: 20
             failureThreshold: 5
             timeoutSeconds: 10
-          env:
-            - name: PUPPETDB_HOST
-              value: {{ template "foreman.fullname" . }}-puppetdb
-            - name: PUPPETDB_PORT
-              value: {{ .Values.puppetdb.service.SSL.externalPort }}
-            - name: PUPPETDB_SSL_VERIFY
-              value: {{ .Values.puppetdb.caPath | quote }}
-            - name: PUPPETDB_KEY
-              value: {{ .Values.puppetdb.privkeyPath | quote }}
-            - name: PUPPETDB_CERT
-              value: {{ .Values.puppetdb.caPath | quote }}
           volumeMounts:
             - mountPath: /var/lib/puppet
               name: puppet
+            - mountPath: /var/www/puppetboard/settings.py
+              name: config
+              subPath: settings.py
           resources:
 {{ toYaml .Values.puppetboard.resources | indent 12 }}
       volumes:
         - name: puppet
           persistentVolumeClaim:
             claimName: {{ template "foreman.fullname" . }}-puppet
-        - name: puppetconfig
+        - name: config
           configMap:
-            name: {{ template "foreman.fullname" . }}-puppet
+            name: puppetboard
 {{- end}}
