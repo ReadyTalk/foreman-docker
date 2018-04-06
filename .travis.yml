@@ -11,7 +11,7 @@ env:
   - IMAGE_NAME=puppetmaster-docker CONTAINER_PATH=puppetmaster MAJ_VERSION=1.2
   - IMAGE_NAME=puppetdb-docker CONTAINER_PATH=puppetdb MAJ_VERSION=2.3.8
   - IMAGE_NAME=foremanproxy-docker CONTAINER_PATH=foreman-proxy  MAJ_VERSION=1.13
-  - IMAGE_NAME=puppetboard-docker CONTAINER_PATH=puppetbaord MAJ_VERSION=0.0.5
+  - IMAGE_NAME=puppetboard-docker CONTAINER_PATH=puppetboard MAJ_VERSION=0.0.5
 install: true
 script:
 - cd $CONTAINER_PATH
