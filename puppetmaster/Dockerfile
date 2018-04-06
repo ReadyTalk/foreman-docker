@@ -53,7 +53,8 @@ RUN gem install hiera hiera-eyaml hiera-eyaml-gpg ruby_gpg
 ADD supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # Fix puppet binary locations
-RUN rm /usr/bin/puppet
-RUN ln -s /usr/local/bundle/bin/puppet /usr/bin/puppet
+#RUN rm /usr/bin/puppet
+RUN rm /usr/local/bundle/bin/puppet
+#RUN ln -s /usr/local/bundle/bin/puppet /usr/bin/puppet
 
 CMD ["/usr/bin/supervisord"]
