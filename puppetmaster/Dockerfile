@@ -1,5 +1,5 @@
 #FROM ruby:2.3-jessie
-FROM debian:jessie-slim
+FROM debian:jessie
 
 ADD https://apt.puppetlabs.com/puppetlabs-release-wheezy.deb /puppetlabs.deb
 RUN dpkg -i /puppetlabs.deb
@@ -20,7 +20,6 @@ RUN apt-get update && apt-get install -y \
     puppetserver \
     ca-certificates \
     puppetdb-terminus \
-    openjdk-7-jre \
     ruby-dev \
     supervisor \
     foreman-proxy \
