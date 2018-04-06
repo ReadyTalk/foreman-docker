@@ -2,8 +2,7 @@
 
 FROM python:2.7-alpine
 
-ENV PUPPETBOARD_PORT 80
-EXPOSE 80
+EXPOSE 9090
 
 RUN apk --update add git wget
 
@@ -13,6 +12,11 @@ RUN tar -zxvf v0.0.5.tar.gz
 WORKDIR puppetboard-0.0.5
 
 RUN pip install -r requirements.txt
-RUN pip install gunicorn
+RUN pip install gunicorn supervisor
 
-CMD gunicorn -b 0.0.0.0:${PUPPETBOARD_PORT} --access-logfile=/dev/stdout puppetboard.app:app
+ADD default_settings.py /var/www/puppetboard/settings.py
+ADD supervisord.conf /etc/supervisord.conf
+
+RUN mkdir -p /var/log/supervisor/puppetboard
+
+ENTRYPOINT ["supervisord", "--nodaemon", "--configuration", "/etc/supervisord.conf"]
