@@ -44,19 +44,16 @@ RUN chmod 644 /usr/lib/ruby/vendor_ruby/puppet/reports/prometheus.rb
 ADD https://raw.githubusercontent.com/theforeman/puppet-foreman/master/files/foreman-report_v2.rb /usr/lib/ruby/vendor_ruby/puppet/reports/foreman.rb
 RUN chmod 644 /usr/lib/ruby/vendor_ruby/puppet/reports/foreman.rb
 
-# Install the foreman proxy
-#RUN git clone https://github.com/theforeman/smart-proxy.git -b ${FOREMAN_VERSION}
-#WORKDIR /smart-proxy
-#
-## Change the version of puppet so that we don't break more stuff
-#RUN sed -i 's/<\ 5\.0\.0/<=\ 3\.8\.7/' bundler.d/puppet.rb
-#RUN bundle install
-
 #Install the gpg-eyaml gems
 RUN puppetserver gem install hiera hiera-eyaml hiera-eyaml-gpg ruby_gpg
 RUN gem install hiera hiera-eyaml hiera-eyaml-gpg ruby_gpg
 
 # Setup supervisord to run the proxy and master
 ADD supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
+# Fix some permissions
+RUN usermod -aG puppet foreman-proxy
+RUN echo "foreman-proxy ALL = NOPASSWD: /opt/puppetlabs/bin/puppet cert *" >> /etc/sudoers.d/10_foreman
+RUN echo "Defaults:foreman-proxy !requiretty" >> /etc/sudoers.d/10_foreman
 
 CMD ["/usr/bin/supervisord"]
