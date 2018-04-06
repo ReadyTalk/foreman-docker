@@ -38,7 +38,7 @@ puppet:
   enabled: true
   image:
     repository: readytalk/puppetmaster-docker
-    tag: 1.2.109-a565343
+    tag:  1.2.111-af4cb0a
     pullPolicy: IfNotPresent
   service:
     type: ClusterIP

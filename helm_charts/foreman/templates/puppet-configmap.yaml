@@ -33,7 +33,7 @@ data:
       storeconfigs_backend = puppetdb
       node_terminus = exec
       external_nodes = /var/lib/puppet/external_node.rb
-      reports = foreman,prometheus
+      reports = foreman,prometheus,puppetdb
       pluginsync=true
       fileserverconfig=/etc/puppet/fileserver.conf
       ordering = manifest
