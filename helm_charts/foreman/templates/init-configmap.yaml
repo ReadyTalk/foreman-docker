@@ -53,5 +53,7 @@ data:
 
     #Fix permissions
     echo "Fixing permissions..."
-    chown -R 9999:9999 /home/app/foreman
+    chown -R 9999:9999 /home/app/foreman/public
+    chown -R 9999:9999 /home/app/foreman/tmp
+    chown -R 9999:9999 /home/app/foreman/locale
 
