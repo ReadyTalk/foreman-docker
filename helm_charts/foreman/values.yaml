@@ -7,6 +7,7 @@ foreman:
 # https://theforeman.org/manuals/1.13/index.html#5.8MultipleForemaninstances
   replicaCount: 5
   railsenv: production
+  logLevel: info
   image:
     repository: readytalk/foreman-docker
     tag: 1.13.80-56ef87e
