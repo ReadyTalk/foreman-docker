@@ -32,8 +32,14 @@ spec:
               containerPort: {{ .Values.postgres.service.internalPort }}
               protocol: TCP
           readinessProbe:
-            tcpSocket:
-              port: postgres
+            exec:
+              command:
+              - sh
+              - -c
+              - exec pg_isready -U {{ .Values.postgres.user }}
+            initialDelaySeconds: 5
+            timeoutSeconds: 3
+            periodSeconds: 5
           env:
             - name: POSTGRES_USER
               value: {{ .Values.postgres.user }}
