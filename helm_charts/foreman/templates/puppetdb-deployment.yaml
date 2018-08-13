@@ -27,6 +27,10 @@ spec:
         - name: {{ .Chart.Name }}-postgres-puppetdb
           image: "{{ .Values.puppetdb.postgres.image.repository }}:{{ .Values.puppetdb.postgres.image.tag }}"
           imagePullPolicy: {{ .Values.puppetdb.postgres.image.pullPolicy }}
+          resources:
+            request:
+              cpu: 1000m
+              memory: 1024Mi
           env:
             - name: POSTGRES_USER
               value: {{ .Values.puppetdb.postgres.username }}

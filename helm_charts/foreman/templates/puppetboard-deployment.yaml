@@ -27,6 +27,10 @@ spec:
         - name: puppetboard
           image: "{{ .Values.puppetboard.image.repository }}:{{ .Values.puppetboard.image.tag }}"
           imagePullPolicy: {{ .Values.puppetboard.image.pullPolicy }}
+          resources:
+            request:
+              cpu: 1000m
+              memory: 1024Mi
           ports:
             - name: puppetboard
               containerPort: {{ .Values.puppetboard.service.internalPort }}
