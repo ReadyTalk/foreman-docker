@@ -1,5 +1,13 @@
 [![Build Status](https://travis-ci.org/ReadyTalk/foreman-docker.svg?branch=master)](https://travis-ci.org/ReadyTalk/foreman-docker)
 
+# DEPRECATED
+
+This is no longer user or maintained and just around for reference.  If you are needing something like this please see the following links:
+
+* https://community.theforeman.org/t/dockerfile-is-now-included-in-foreman-core/13987
+* https://github.com/ohadlevy/foreman-kube
+
+
 # Complete foreman in Kubernetes
 
 # Containers
