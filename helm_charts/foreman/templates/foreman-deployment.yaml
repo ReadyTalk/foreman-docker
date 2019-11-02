@@ -26,6 +26,10 @@ spec:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.foreman.image.repository }}:{{ .Values.foreman.image.tag }}"
           imagePullPolicy: {{ .Values.foreman.image.pullPolicy }}
+          resources:
+            request:
+              cpu: 1000m
+              memory: 1024Mi
           ports:
             - name: http
               containerPort: {{ .Values.foreman.service.internalPort }}

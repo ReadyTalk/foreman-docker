@@ -27,6 +27,10 @@ spec:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.postgres.image.repository }}:{{ .Values.postgres.image.tag }}"
           imagePullPolicy: {{ .Values.postgres.image.pullPolicy }}
+          resources:
+            request:
+              cpu: 100m
+              memory: 1024Mi
           ports:
             - name: postgres
               containerPort: {{ .Values.postgres.service.internalPort }}

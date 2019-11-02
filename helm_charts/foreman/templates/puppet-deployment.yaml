@@ -31,6 +31,10 @@ spec:
         - name: puppet
           image: "{{ .Values.puppet.image.repository }}:{{ .Values.puppet.image.tag }}"
           imagePullPolicy: {{ .Values.puppet.image.pullPolicy }}
+          resources:
+            request:
+              cpu: 1000m
+              memory: 1024Mi
           ports:
             - name: puppet
               containerPort: {{ .Values.puppet.service.internalPort }}
